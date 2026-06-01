@@ -15,18 +15,19 @@ export function SiteHeader() {
     { label: "Founding", href: "/#founding" },
     { label: "Pricing", href: "/#pricing" },
     { label: "FAQ", href: "/#faq" },
+    { label: "Contact Us", href: "/#contact" },
   ] as const;
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Announcement bar — grid-rows collapse for smooth dismiss */}
+      {/* Announcement bar */}
       <div
         className="overflow-hidden transition-all duration-200 ease-out"
         style={{ display: "grid", gridTemplateRows: barVisible ? "1fr" : "0fr" }}
       >
         <div className="min-h-0 overflow-hidden">
           <div className="bg-(--color-navy)">
-            {/* Desktop single-row layout */}
+            {/* Desktop */}
             <div className="hidden md:flex items-center justify-center gap-3 py-3 px-12 relative">
               <button
                 onClick={() => setBarVisible(false)}
@@ -50,26 +51,25 @@ export function SiteHeader() {
               </Link>
             </div>
 
-            {/* Mobile stacked layout */}
-            <div className="md:hidden relative px-4 py-3 text-center">
+            {/* Mobile — single condensed line */}
+            <div className="md:hidden relative flex items-center justify-center gap-2 px-10 py-2.5">
               <button
                 onClick={() => setBarVisible(false)}
-                className="absolute right-3 top-3 text-white/40 hover:text-white/80 transition-colors p-1 rounded"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition-colors p-1 rounded"
                 aria-label="Dismiss announcement"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
-              <div className="text-(--color-gold) text-sm font-bold uppercase tracking-widest">
+              <span className="text-(--color-gold) text-xs font-bold uppercase tracking-widest shrink-0">
                 FOUNDING 50
-              </div>
-              <div className="text-white/85 text-sm mt-1 pr-6">
-                Locked-in pricing for our first 50 families. Spots are open now.
-              </div>
+              </span>
+              <span className="text-white/25 text-xs select-none">·</span>
               <Link
                 href="#founding"
-                className="text-(--color-gold) text-sm font-semibold mt-2 inline-block hover:opacity-75 transition-opacity"
+                onClick={() => setMenuOpen(false)}
+                className="text-white/80 text-xs font-medium hover:text-(--color-gold) transition-colors truncate"
               >
-                Reserve yours →
+                Spots open — Reserve yours
               </Link>
             </div>
           </div>
@@ -78,7 +78,7 @@ export function SiteHeader() {
 
       {/* Navbar */}
       <nav className="bg-(--color-surface) border-b border-(--color-ink-faint) h-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex items-center justify-between gap-2 md:gap-4">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Image
@@ -104,28 +104,27 @@ export function SiteHeader() {
             ))}
           </div>
 
-          {/* Right: CTA + hamburger */}
-          <div className="flex items-center gap-2 md:gap-3 shrink-0">
-            <Link
-              href="#founding"
-              className="bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-3 py-2.5 md:px-5 hover:brightness-105 transition-all whitespace-nowrap"
-            >
-              Reserve Your Spot
-            </Link>
-            <button
-              className="md:hidden text-(--color-ink-muted) p-2 hover:text-(--color-navy) transition-colors rounded"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
-            >
-              <Menu
-                className={cn(
-                  "w-5 h-5 transition-transform duration-150",
-                  menuOpen && "rotate-90",
-                )}
-              />
-            </button>
-          </div>
+          {/* Desktop CTA */}
+          <Link
+            href="#founding"
+            className="hidden md:inline-flex bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-5 py-2.5 hover:brightness-105 transition-all whitespace-nowrap shrink-0"
+          >
+            Reserve Your Spot
+          </Link>
+
+          {/* Mobile hamburger — logo fills left, this fills right */}
+          <button
+            className="md:hidden text-(--color-ink-muted) p-2 -mr-2 hover:text-(--color-navy) transition-colors rounded min-w-11 min-h-11 flex items-center justify-center"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
+          </button>
         </div>
 
         {/* Mobile dropdown */}
@@ -134,7 +133,7 @@ export function SiteHeader() {
           style={{ display: "grid", gridTemplateRows: menuOpen ? "1fr" : "0fr" }}
         >
           <div className="min-h-0 overflow-hidden bg-(--color-surface) border-t border-(--color-ink-faint)">
-            <div className="flex flex-col px-6">
+            <div className="flex flex-col px-6 pb-6">
               {navLinks.map(({ label, href }, i) => (
                 <Link
                   key={label}
@@ -148,6 +147,13 @@ export function SiteHeader() {
                   {label}
                 </Link>
               ))}
+              <Link
+                href="#founding"
+                onClick={() => setMenuOpen(false)}
+                className="mt-5 bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-5 py-3 hover:brightness-105 transition-all text-center"
+              >
+                Reserve Your Spot
+              </Link>
             </div>
           </div>
         </div>

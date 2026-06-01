@@ -1,5 +1,7 @@
 import type { Faq } from "@/types/faq";
 import { FaqAccordion } from "@/components/faq-accordion";
+import { Phone, Mail } from "lucide-react";
+import Link from "next/link";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? "https://metropaws-backend.onrender.com";
@@ -69,23 +71,63 @@ export async function FaqSection() {
   const faqs = await fetchFaqs();
 
   return (
-    <section id="faq" className="bg-(--color-navy) py-20 md:py-28">
+    <section id="faq" className="bg-(--color-cream-warm) py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20 items-start">
           <div className="lg:sticky lg:top-28">
             <p className="text-sm font-semibold uppercase tracking-widest text-(--color-gold)">
               Questions
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight mt-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-(--color-navy) tracking-tight leading-tight mt-3">
               Everything you need to know
             </h2>
-            <p className="text-sm text-white/60 leading-relaxed mt-4 max-w-[42ch]">
+            <p className="text-sm text-(--color-ink) leading-relaxed mt-4 max-w-[42ch]">
               How the membership works, what sessions cover, and what to expect
               at your first visit.
             </p>
           </div>
 
           <FaqAccordion faqs={faqs} />
+        </div>
+
+        <div id="contact" className="mt-16 pt-10 border-t border-(--color-ink-faint)">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+            <p className="text-sm text-(--color-ink-muted)">
+              Still have a question? We&apos;re easy to reach.
+            </p>
+            <div className="flex flex-wrap gap-x-8 gap-y-3">
+              <Link
+                href="tel:09209224486"
+                className="flex items-center gap-2 text-sm font-medium text-(--color-ink) hover:text-(--color-navy) transition-colors group"
+              >
+                <Phone className="w-4 h-4 text-(--color-ink-faint) group-hover:text-(--color-navy) transition-colors shrink-0" />
+                0920-922-4486
+              </Link>
+              <Link
+                href="mailto:csr@metropaws.ph"
+                className="flex items-center gap-2 text-sm font-medium text-(--color-ink) hover:text-(--color-navy) transition-colors group"
+              >
+                <Mail className="w-4 h-4 text-(--color-ink-faint) group-hover:text-(--color-navy) transition-colors shrink-0" />
+                csr@metropaws.ph
+              </Link>
+              <Link
+                href="https://www.facebook.com/people/Metropaws/61588899502470/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm font-medium text-(--color-ink) hover:text-(--color-navy) transition-colors group"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-4 h-4 text-(--color-ink-faint) group-hover:text-(--color-navy) transition-colors shrink-0"
+                  aria-hidden="true"
+                >
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+                Message us on Facebook
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>

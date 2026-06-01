@@ -28,20 +28,20 @@ export function FaqAccordion({ faqs }: { faqs: Faq[] }) {
           <div
             key={faq.id}
             className={cn(
-              "border-t border-white/10",
-              index === faqs.length - 1 && "border-b border-b-white/10"
+              "border-t border-(--color-ink-faint)",
+              index === faqs.length - 1 && "border-b border-b-(--color-ink-faint)"
             )}
           >
             <dt>
               <button
                 onClick={() => toggle(faq.id)}
                 aria-expanded={isOpen}
-                className="flex w-full items-center justify-between gap-6 py-5 text-left text-sm font-semibold text-white transition-colors duration-150 ease-out hover:text-(--color-gold) focus-visible:outline-none focus-visible:text-(--color-gold)"
+                className="flex w-full items-center justify-between gap-6 py-5 text-left text-sm font-semibold text-(--color-navy) transition-colors duration-150 ease-out hover:text-(--color-navy-mid) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-navy) focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-cream-warm)"
               >
                 <span>{faq.question}</span>
                 <ChevronDown
                   className={cn(
-                    "size-4 shrink-0 text-(--color-gold) transition-transform duration-200 ease-out",
+                    "size-4 shrink-0 text-(--color-navy-mid) transition-transform duration-200 ease-out",
                     isOpen && "rotate-180"
                   )}
                   aria-hidden="true"
@@ -49,7 +49,7 @@ export function FaqAccordion({ faqs }: { faqs: Faq[] }) {
               </button>
             </dt>
             {isOpen && (
-              <dd className="pb-6 text-sm text-white/60 leading-relaxed max-w-[65ch]">
+              <dd className="pb-6 text-sm text-(--color-ink) leading-relaxed max-w-[65ch]">
                 {faq.answer}
               </dd>
             )}

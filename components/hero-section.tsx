@@ -1,39 +1,21 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AppStoreButtons } from "@/components/app-store-buttons";
 
 export function HeroSection() {
   return (
     <section className="relative flex-1 min-h-155 overflow-hidden">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src="/hero-clean.jpg"
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover object-center"
+        alt="A happy dog at a pet wellness clinic in Metro Manila"
+        fill
+        className="object-cover object-center"
+        priority
       />
+      <div className="absolute inset-0 bg-linear-to-r from-(--color-navy)/65 via-(--color-navy)/45 to-(--color-navy)/15" />
 
-      {/* Mobile overlay: bottom-to-top navy scrim */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 lg:hidden"
-        style={{
-          background:
-            "linear-gradient(to top, oklch(0.22 0.052 258 / 0.97) 0%, oklch(0.22 0.052 258 / 0.88) 28%, oklch(0.22 0.052 258 / 0.55) 52%, oklch(0.22 0.052 258 / 0.15) 75%, transparent 92%)",
-        }}
-      />
-
-      {/* Desktop overlay: left edge reduced 0.93 → 0.72 so the image breathes */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 hidden lg:block"
-        style={{
-          background:
-            "linear-gradient(108deg, oklch(0.22 0.052 258 / 0.72) 0%, oklch(0.22 0.052 258 / 0.80) 28%, oklch(0.22 0.052 258 / 0.42) 50%, oklch(0.22 0.052 258 / 0.08) 68%, transparent 80%)",
-        }}
-      />
-
-      <div className="absolute inset-0 z-10 flex items-end lg:items-center">
-        <div className="px-6 pb-14 lg:pb-0 lg:px-16 xl:px-24">
+      <div className="absolute inset-0 z-10 flex items-end min-[500px]:items-center">
+        <div className="w-full px-6 pb-14 min-[500px]:pb-0 min-[500px]:px-16 xl:px-24 flex flex-col items-center text-center min-[500px]:items-start min-[500px]:text-left">
           <h1 className="text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
             <span className="block text-white mp-rise [animation-delay:80ms]">
               Pet Wellness
@@ -51,7 +33,7 @@ export function HeroSection() {
             Free to register, always in your pocket.
           </p>
 
-          <div className="mt-10 lg:mt-8 mp-rise [animation-delay:660ms]">
+          <div className="mt-10 min-[500px]:mt-8 w-full min-[500px]:w-auto mp-rise [animation-delay:660ms]">
             <Link
               href="#founding"
               className="inline-flex items-center justify-center w-full lg:w-auto bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-8 py-4 transition-all duration-200 ease-out hover:brightness-105 motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-gold) focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-navy)"

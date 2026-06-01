@@ -201,4 +201,68 @@
       }
     }
   }
+
+  @keyframes mp-float {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-8px);
+    }
+  }
+
+  .mp-float {
+    will-change: transform;
+    animation: mp-float 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+    animation-delay: 0.5s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mp-float {
+      animation: none;
+    }
+  }
+
+  @keyframes mp-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .mp-marquee-track {
+    will-change: transform;
+    animation: mp-marquee 35s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mp-marquee-track {
+      animation-play-state: paused;
+    }
+  }
+
+  /* Product register: short, purposeful entrance */
+  @keyframes dash-rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .dash-rise {
+    animation: dash-rise 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dash-rise {
+      animation-duration: 1ms;
+      animation-delay: 0ms !important;
+    }
+  }
 }

@@ -1,5 +1,7 @@
 import { SiteHeader } from "@/components/site-header";
 import { HeroSection } from "@/components/hero-section";
+import { LogoMarquee } from "@/components/logo-marquee";
+import { AppPreviewSection } from "@/components/app-preview-section";
 import { CoverageTeaser } from "@/components/coverage-teaser";
 import { PlansSection } from "@/components/plans-section";
 import { FoundingSection } from "@/components/founding-section";
@@ -12,6 +14,8 @@ export default function Home() {
       <SiteHeader />
       <main className="flex flex-col flex-1">
         <HeroSection />
+        <LogoMarquee />
+        <AppPreviewSection />
         <CoverageTeaser />
         <PlansSection />
         <FoundingSection />
