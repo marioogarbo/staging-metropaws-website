@@ -109,7 +109,8 @@ export function RegisterForm() {
     else if (password.length < 8) next.password = "At least 8 characters required.";
 
     if (!confirmPassword) next.confirmPassword = "Please confirm your password.";
-    else if (password !== confirmPassword) next.confirmPassword = "Passwords do not match.";
+    else if (password !== confirmPassword)
+      next.confirmPassword = "Passwords do not match.";
 
     if (Object.values(next).some(Boolean)) {
       setErrors(next);
@@ -139,7 +140,10 @@ export function RegisterForm() {
       if (res.status === 400) {
         const data = await res.json().catch(() => ({}));
         if (data?.detail === "Email already registered") {
-          setFieldError("email", "This email is already registered. Try signing in instead.");
+          setFieldError(
+            "email",
+            "This email is already registered. Try signing in instead.",
+          );
         } else {
           setFieldError("server", "Something went wrong. Please try again.");
         }
@@ -221,7 +225,10 @@ export function RegisterForm() {
               onBlur={(e) => {
                 const v = e.target.value.trim();
                 if (v && !isValidName(v))
-                  setFieldError("firstName", "Letters, spaces, hyphens, and apostrophes only.");
+                  setFieldError(
+                    "firstName",
+                    "Letters, spaces, hyphens, and apostrophes only.",
+                  );
               }}
               aria-invalid={errors.firstName ? true : undefined}
               className={cn(inputBase, errors.firstName && inputError)}
@@ -240,7 +247,10 @@ export function RegisterForm() {
               onBlur={(e) => {
                 const v = e.target.value.trim();
                 if (v && !isValidName(v))
-                  setFieldError("lastName", "Letters, spaces, hyphens, and apostrophes only.");
+                  setFieldError(
+                    "lastName",
+                    "Letters, spaces, hyphens, and apostrophes only.",
+                  );
               }}
               aria-invalid={errors.lastName ? true : undefined}
               className={cn(inputBase, errors.lastName && inputError)}
@@ -261,7 +271,8 @@ export function RegisterForm() {
             onChange={() => clearFieldError("email")}
             onBlur={(e) => {
               const v = e.target.value.trim();
-              if (v && !emailPattern.test(v)) setFieldError("email", "Enter a valid email address.");
+              if (v && !emailPattern.test(v))
+                setFieldError("email", "Enter a valid email address.");
             }}
             aria-invalid={errors.email ? true : undefined}
             className={cn(inputBase, errors.email && inputError)}
@@ -340,7 +351,11 @@ export function RegisterForm() {
               disabled={isSubmitting}
               onChange={() => clearFieldError("confirmPassword")}
               onBlur={(e) => {
-                if (e.target.value && passwordRef.current && e.target.value !== passwordRef.current.value)
+                if (
+                  e.target.value &&
+                  passwordRef.current &&
+                  e.target.value !== passwordRef.current.value
+                )
                   setFieldError("confirmPassword", "Passwords do not match.");
               }}
               aria-invalid={errors.confirmPassword ? true : undefined}
@@ -365,21 +380,23 @@ export function RegisterForm() {
           disabled={isSubmitting}
           className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-(--color-gold) px-6 py-4 text-sm font-semibold text-(--color-navy) transition-all duration-200 ease-out hover:brightness-105 motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-gold) focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-cream) disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+          {isSubmitting && (
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+          )}
           {isSubmitting ? "Creating account..." : "Create account"}
         </button>
 
         <p className="text-center text-sm leading-relaxed text-(--color-ink-faint)">
           By signing up you agree to our{" "}
           <Link
-            href="/terms"
+            href="/terms-of-service"
             className="underline underline-offset-2 transition-colors hover:text-(--color-ink-muted)"
           >
             Terms of Service
           </Link>{" "}
           and{" "}
           <Link
-            href="/privacy"
+            href="/privacy-policy"
             className="underline underline-offset-2 transition-colors hover:text-(--color-ink-muted)"
           >
             Privacy Policy

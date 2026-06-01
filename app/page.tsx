@@ -7,6 +7,7 @@ import { PlansSection } from "@/components/plans-section";
 import { FoundingSection } from "@/components/founding-section";
 import { FaqSection } from "@/components/faq-section";
 import { SiteFooter } from "@/components/site-footer";
+import { PartnerClinicCta } from "@/components/partner-clinic-cta";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <PlansSection />
         <FoundingSection />
         <FaqSection />
+        <PartnerClinicCta />
       </main>
 
       <SiteFooter variant="photo" />

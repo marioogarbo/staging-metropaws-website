@@ -40,6 +40,14 @@ export function HeroSection() {
             >
               Reserve Your Founding Spot →
             </Link>
+            <div className="mt-3 flex justify-center min-[500px]:justify-start">
+              <Link
+                href="/register"
+                className="text-xs text-white/45 hover:text-white/70 transition-colors"
+              >
+                or create an account
+              </Link>
+            </div>
           </div>
 
           <div className="mt-4 mp-rise [animation-delay:820ms]">

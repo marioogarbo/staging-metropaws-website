@@ -104,13 +104,21 @@ export function SiteHeader() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <Link
-            href="/#founding"
-            className="hidden md:inline-flex bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-5 py-2.5 hover:brightness-105 transition-all whitespace-nowrap shrink-0"
-          >
-            Reserve Your Spot
-          </Link>
+          {/* Desktop CTAs */}
+          <div className="hidden md:flex items-center gap-3 shrink-0">
+            <Link
+              href="/#founding"
+              className="inline-flex bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-5 py-2.5 hover:brightness-105 transition-all whitespace-nowrap"
+            >
+              Reserve Your Spot
+            </Link>
+            <Link
+              href="/register"
+              className="text-sm font-medium text-(--color-ink-muted) hover:text-(--color-navy) transition-colors"
+            >
+              Sign up
+            </Link>
+          </div>
 
           {/* Mobile hamburger — logo fills left, this fills right */}
           <button
@@ -144,11 +152,18 @@ export function SiteHeader() {
                 </Link>
               ))}
               <Link
-                href="#founding"
+                href="/#founding"
                 onClick={() => setMenuOpen(false)}
                 className="mt-5 bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-5 py-3 hover:brightness-105 transition-all text-center"
               >
                 Reserve Your Spot
+              </Link>
+              <Link
+                href="/register"
+                onClick={() => setMenuOpen(false)}
+                className="mt-3 text-sm font-medium text-(--color-ink-muted) hover:text-(--color-navy) transition-colors text-center"
+              >
+                or create an account
               </Link>
             </div>
           </div>
