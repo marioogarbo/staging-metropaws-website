@@ -118,10 +118,24 @@ function FooterContent() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-6 py-5">
-          <p className="text-white/30 text-sm text-center">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-2">
+          <p className="text-white/30 text-sm">
             © 2026 MetroPaws Wellness Club. All rights reserved.
           </p>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/privacy-policy"
+              className="text-white/30 text-sm hover:text-white/60 transition-colors duration-150"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms-of-service"
+              className="text-white/30 text-sm hover:text-white/60 transition-colors duration-150"
+            >
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </>

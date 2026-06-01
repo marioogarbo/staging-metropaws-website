@@ -44,7 +44,7 @@ export function SiteHeader() {
                 Locked-in pricing for our first 50 families. Spots are open now.
               </span>
               <Link
-                href="#founding"
+                href="/#founding"
                 className="text-(--color-gold) text-sm font-semibold ml-2 hover:opacity-75 transition-opacity"
               >
                 Reserve yours →
@@ -65,7 +65,7 @@ export function SiteHeader() {
               </span>
               <span className="text-white/25 text-xs select-none">·</span>
               <Link
-                href="#founding"
+                href="/#founding"
                 onClick={() => setMenuOpen(false)}
                 className="text-white/80 text-xs font-medium hover:text-(--color-gold) transition-colors truncate"
               >
@@ -106,7 +106,7 @@ export function SiteHeader() {
 
           {/* Desktop CTA */}
           <Link
-            href="#founding"
+            href="/#founding"
             className="hidden md:inline-flex bg-(--color-gold) text-(--color-navy) text-sm font-semibold rounded-lg px-5 py-2.5 hover:brightness-105 transition-all whitespace-nowrap shrink-0"
           >
             Reserve Your Spot
@@ -119,11 +119,7 @@ export function SiteHeader() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
           >
-            {menuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
