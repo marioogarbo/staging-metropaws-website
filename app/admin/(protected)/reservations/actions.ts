@@ -51,3 +51,29 @@ export async function updateReservationStatusAction(
   revalidatePath("/admin/reservations");
   return { error: null };
 }
+
+export async function deleteReservationAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const token = await getToken();
+  if (!token) return { error: "Not authenticated." };
+
+  const reservationId = formData.get("reservationId") as string;
+
+  const res = await fetch(
+    `${BACKEND_URL}/admin/founding-reservations/${reservationId}`,
+    {
+      method: "DELETE",
+      headers: authHeader(token),
+    },
+  );
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    return { error: err?.detail ?? "Failed to delete reservation." };
+  }
+
+  revalidatePath("/admin/reservations");
+  return { error: null };
+}
