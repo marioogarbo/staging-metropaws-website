@@ -11,7 +11,7 @@ type BillingCycle = "monthly" | "annual";
 const TIER_BADGE: Record<Plan["name"], string> = {
   Standard: "Standard",
   Deluxe: "Gold",
-  Premium: "Silver",
+  Premium: "Platinum",
 };
 
 const CTA_LABEL: Record<Plan["name"], string> = {

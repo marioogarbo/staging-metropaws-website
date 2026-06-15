@@ -20,13 +20,13 @@ export function FoundingSection() {
         </div>
       </div>
 
-      <div className="relative hidden lg:block lg:w-[44%] xl:w-[42%] min-h-175">
+      <div className="relative hidden lg:block lg:w-[44%] xl:w-[42%] min-h-175 overflow-hidden">
         <Image
           src="/founding-50.jpg"
           alt="Limited Spots Only — The Founding 50 is an exclusive, by-invitation membership"
           fill
           sizes="(max-width: 1280px) 44vw, 42vw"
-          className="object-cover object-center"
+          className="object-cover object-left"
         />
       </div>
     </section>
