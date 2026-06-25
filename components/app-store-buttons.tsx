@@ -106,7 +106,7 @@ export function AppStoreButtons() {
         <PlayStoreComingSoon />
         {/* <AppStoreComingSoon /> */}
       </div>
-      <p className="text-[10px] text-white/35 leading-snug max-w-[38ch]">
+      <p className="text-[10px] text-white/55 leading-snug max-w-[38ch]">
         Android: tap the APK then enable &ldquo;Install unknown apps&rdquo; in Settings
       </p>
     </div>

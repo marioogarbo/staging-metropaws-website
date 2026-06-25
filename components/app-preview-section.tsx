@@ -77,7 +77,7 @@ export function AppPreviewSection() {
                 <PhoneFrame primary>
                   <Image
                     src="/mobile-app-qr-screen.jpg"
-                    alt="MetroPaws app — QR Pet ID screen shown to clinic staff"
+                    alt="MetroPaws app: QR Pet ID screen shown to clinic staff"
                     fill
                     sizes="(max-width: 640px) 208px, (max-width: 768px) 192px, (max-width: 1024px) 216px, 248px"
                     className="object-cover object-top"

@@ -30,7 +30,7 @@ export function PawPointsSection() {
           </p>
           <h2
             id="pawpoints-heading"
-            className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight"
+            className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight text-balance"
           >
             Caring for your pet earns its keep.
           </h2>
@@ -65,7 +65,7 @@ export function PawPointsSection() {
                 </li>
               ))}
             </ul>
-            <p className="mt-5 text-xs text-white/45 leading-relaxed">
+            <p className="mt-5 text-xs text-white/60 leading-relaxed">
               Points shown at Standard rate. Deluxe and Premium members earn up
               to 4&times; faster.
             </p>
@@ -109,7 +109,7 @@ export function PawPointsSection() {
           </div>
         </div>
 
-        <p className="mp-reveal mt-12 text-xs text-white/45 leading-relaxed max-w-[72ch]">
+        <p className="mp-reveal mt-12 text-xs text-white/60 leading-relaxed max-w-[72ch]">
           PawPoints are loyalty points, not cash, and are redeemed under approved
           reward rules. The rewards catalogue may change with availability and
           program updates.

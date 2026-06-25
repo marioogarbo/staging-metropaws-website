@@ -9,10 +9,13 @@ export function HeroSection() {
         src="/hero-owner.jpg"
         alt="A Filipino pet owner with his golden retriever in a sunlit Metro Manila garden"
         fill
-        className="object-cover object-center"
+        className="object-cover object-[70%_center] lg:object-center"
         priority
       />
-      <div className="absolute inset-0 bg-linear-to-r from-(--color-navy)/65 via-(--color-navy)/45 to-(--color-navy)/15" />
+      {/* Mobile: bottom-up scrim keeps the bottom-anchored text legible over the subject */}
+      <div className="absolute inset-0 min-[500px]:hidden bg-linear-to-t from-(--color-navy)/92 from-15% via-(--color-navy)/55 to-(--color-navy)/20" />
+      {/* Desktop: left-right scrim for the left-aligned, vertically centered text */}
+      <div className="absolute inset-0 hidden min-[500px]:block bg-linear-to-r from-(--color-navy)/70 via-(--color-navy)/45 to-(--color-navy)/10" />
 
       <div className="absolute inset-0 z-10 flex items-end min-[500px]:items-center">
         <div className="w-full px-6 pb-14 min-[500px]:pb-0 min-[500px]:px-16 xl:px-24 flex flex-col items-center text-center min-[500px]:items-start min-[500px]:text-left">
@@ -28,7 +31,7 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <p className="text-white/75 text-sm leading-relaxed mt-4 max-w-[42ch] mp-rise [animation-delay:520ms]">
+          <p className="text-white/85 text-sm leading-relaxed mt-4 max-w-[42ch] mp-rise [animation-delay:520ms]">
             Your pet&apos;s Digital Pet Passport, wellness benefits, and PawPoints
             rewards in one place. Free to register, always in your pocket.
           </p>
@@ -43,7 +46,7 @@ export function HeroSection() {
             <div className="mt-3 flex justify-center min-[500px]:justify-start">
               <Link
                 href="/register"
-                className="text-xs text-white/45 hover:text-white/70 transition-colors"
+                className="text-xs text-white/70 hover:text-white transition-colors"
               >
                 or create an account
               </Link>

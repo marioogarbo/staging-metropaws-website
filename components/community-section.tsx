@@ -35,7 +35,7 @@ export function CommunitySection() {
             </p>
             <h2
               id="community-heading"
-              className="mt-3 text-3xl md:text-5xl font-bold text-(--color-navy) tracking-tight leading-tight"
+              className="mt-3 text-3xl md:text-5xl font-bold text-(--color-navy) tracking-tight leading-tight text-balance"
             >
               Pet parents, in good company.
             </h2>

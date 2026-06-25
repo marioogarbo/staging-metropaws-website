@@ -41,7 +41,7 @@ export function HowItWorksSection() {
           </p>
           <h2
             id="how-it-works-heading"
-            className="mt-3 text-3xl md:text-5xl font-bold text-(--color-navy) tracking-tight leading-tight"
+            className="mt-3 text-3xl md:text-5xl font-bold text-(--color-navy) tracking-tight leading-tight text-balance"
           >
             Pay your provider. We pay you back.
           </h2>
@@ -113,7 +113,7 @@ export function HowItWorksSection() {
                   </div>
                 </div>
               ))}
-              <p className="text-xs text-white/45 leading-relaxed">
+              <p className="text-xs text-white/60 leading-relaxed">
                 Illustrative balances. Actual entitlements depend on your plan.
               </p>
             </div>
