@@ -19,7 +19,7 @@ export function PartnerClinicCta() {
         </h2>
         <p className="text-sm text-(--color-ink-faint) leading-relaxed mt-4 max-w-[52ch] mx-auto">
           Join a growing network of Metro Manila clinics offering digital
-          membership cards, session tracking, and QR-based check-ins — no new
+          membership cards, benefit tracking, and QR-based check-ins, with no new
           hardware required.
         </p>
         <div className="mt-8">

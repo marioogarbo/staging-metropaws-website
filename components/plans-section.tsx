@@ -10,12 +10,14 @@ const FALLBACK_PLANS: Plan[] = [
     name: "Standard",
     price: 2999,
     price_monthly: 300,
-    tagline: "Essential coverage for your furbaby",
+    tagline: "Smart Pet Parenting Starts Here",
     features: [
-      "2 Consultations per year",
-      "Annual Vaccines (with deworming and Kennel cough)",
-      "15% off on Grooming",
-      "10% off on Laboratory",
+      "Professional veterinary care — up to 2 consultations a year",
+      "Annual vaccines with deworming and kennel cough",
+      "Grooming privileges — up to 15% member savings",
+      "Laboratory savings — up to 10% member savings",
+      "Emergency assistance — 10% off the initial gate fee, once a year",
+      "Digital Pet Passport, reminders & PawPoints rewards",
     ],
     is_featured: false,
     is_active: true,
@@ -26,13 +28,14 @@ const FALLBACK_PLANS: Plan[] = [
     name: "Deluxe",
     price: 5999,
     price_monthly: 600,
-    tagline: "More care, more coverage for your pet",
+    tagline: "The Complete Preventive Care Membership",
     features: [
-      "4 Consultations per year",
-      "Annual Vaccines (with deworming and Kennel cough)",
-      "Emergency case/year ONLY: Initial Gate Fee + Basic Stabilization (IV fluids, catheter setup, and immediate pain/anti-inflammatory injections).",
-      "10% off on Laboratory",
-      "2 Free grooming sessions",
+      "Enhanced veterinary support — up to 4 consultations a year",
+      "Annual vaccines with deworming and kennel cough",
+      "One emergency case a year — gate fee plus basic stabilization",
+      "Laboratory savings — up to 10% member savings",
+      "Complimentary grooming — 2 sessions a year",
+      "Enhanced PawPoints & priority member processing",
     ],
     is_featured: true,
     is_active: true,
@@ -43,13 +46,13 @@ const FALLBACK_PLANS: Plan[] = [
     name: "Premium",
     price: 10999,
     price_monthly: 1200,
-    tagline: "The ultimate MetroPaws experience",
+    tagline: "The Premier Pet Parenting Membership",
     features: [
-      "Unlimited consultations",
-      "4 Free grooming sessions",
-      "CBC Blood Test (Labs)",
-      "Emergency Bridge/year (1st ₱5K covered) plus additional 10% on total bill not exceeding 15K",
-      "Annual Vaccines (with deworming and Kennel cough)",
+      "Unlimited veterinary consultations (per program terms)",
+      "Premium grooming — 4 complimentary sessions a year",
+      "Annual diagnostic screening — includes CBC blood test",
+      "Emergency Bridge — first ₱5,000 covered, plus 10% on bills up to ₱15,000",
+      "Digital Pet Passport Premium, Elite PawPoints & concierge support",
     ],
     is_featured: false,
     is_active: true,
@@ -94,8 +97,8 @@ export async function PlansSection() {
             Plans &amp; Pricing
           </h2>
           <p className="text-sm text-(--color-ink-muted) leading-relaxed mt-4 max-w-[52ch]">
-            Choose the coverage that fits your pet. No payment to register;
-            billing is handled at your partner clinic.
+            Choose the membership that fits your pet. Free to register; pay only
+            when you activate a plan, then claim your benefits anywhere.
           </p>
         </div>
 

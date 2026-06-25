@@ -1,21 +1,24 @@
 import Link from "next/link";
-import { ShieldCheck, Wifi, Users } from "lucide-react";
+import { ShieldCheck, ReceiptText, Users } from "lucide-react";
 
 const pillars = [
   {
     icon: ShieldCheck,
-    label: "The 5K Shield",
-    detail: "Annual emergency coverage up to ₱5,000 at partner clinics.",
+    label: "Emergency Support",
+    detail:
+      "Help when it counts, from a discounted gate fee up to a ₱5,000 Emergency Bridge on Premium.",
   },
   {
-    icon: Wifi,
-    label: "The Offline Guarantee",
-    detail: "Physical cards and a Partner Whitelist — works even without signal.",
+    icon: ReceiptText,
+    label: "Use Any Provider",
+    detail:
+      "Keep your trusted vet. Pay, upload the receipt, and get reimbursed to your Benefit Wallet.",
   },
   {
     icon: Users,
     label: "The Pack Network",
-    detail: 'Curated "Class A" vets and groomers across Las Piñas.',
+    detail:
+      "A growing circle of partner vets and groomers across Las Piñas, with extra member perks.",
   },
 ];
 
@@ -27,16 +30,17 @@ export function CoverageTeaser() {
           {/* Left: label + blurb */}
           <div className="shrink-0 md:max-w-[28ch]">
             <p className="text-sm font-semibold uppercase tracking-widest text-(--color-gold)">
-              What&apos;s Covered
+              Every Plan Includes
             </p>
             <p className="mt-2 text-sm leading-relaxed text-(--color-ink-muted)">
-              Every plan is backed by the same core protection system.
+              Preventive care, wellness tracking, and rewards in every plan, with
+              more as you upgrade.
             </p>
             <Link
               href="/about"
               className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-(--color-navy) hover:text-(--color-gold) transition-colors"
             >
-              Full service details →
+              Full benefit details →
             </Link>
           </div>
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Check } from "lucide-react";
 
 export function AppPreviewSection() {
   return (
@@ -14,20 +15,41 @@ export function AppPreviewSection() {
               aria-hidden="true"
               className="text-sm font-semibold uppercase tracking-widest text-(--color-gold)"
             >
-              See It In Action
+              Digital Pet Passport
             </p>
             <h2
               id="app-preview-heading"
               className="mt-3 text-2xl md:text-3xl font-bold leading-tight tracking-tight text-white"
             >
-              Your pet&apos;s full profile,
+              Your pet&apos;s whole story,
               <br />
               always in your pocket.
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-white/60 max-w-[48ch] lg:max-w-none mx-auto lg:mx-0">
-              Walk into any partner clinic, tap once, and show your pet&apos;s QR ID. No
-              paperwork. No repeating yourself.
+              Walk into any clinic, tap once, and show your pet&apos;s QR ID. The
+              full passport, plus reminders for what is due next, travels with
+              you. No paperwork, no repeating yourself.
             </p>
+
+            <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 max-w-md mx-auto lg:mx-0 text-left">
+              {[
+                "Pet profile & ID",
+                "Vaccination records",
+                "Grooming history",
+                "Vet consultations",
+                "Wellness reminders",
+                "Lab & emergency notes",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2.5">
+                  <Check
+                    className="w-4 h-4 text-(--color-gold) shrink-0"
+                    strokeWidth={2.5}
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm text-white/80">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Phones */}

@@ -6,8 +6,8 @@ export function HeroSection() {
   return (
     <section className="relative flex-1 min-h-155 overflow-hidden">
       <Image
-        src="/hero-clean.jpg"
-        alt="A happy dog at a pet wellness clinic in Metro Manila"
+        src="/hero-owner.jpg"
+        alt="A Filipino pet owner with his golden retriever in a sunlit Metro Manila garden"
         fill
         className="object-cover object-center"
         priority
@@ -29,8 +29,8 @@ export function HeroSection() {
           </h1>
 
           <p className="text-white/75 text-sm leading-relaxed mt-4 max-w-[42ch] mp-rise [animation-delay:520ms]">
-            Your pet&apos;s QR ID, session tracker, and vaccination records in one place.
-            Free to register, always in your pocket.
+            Your pet&apos;s Digital Pet Passport, wellness benefits, and PawPoints
+            rewards in one place. Free to register, always in your pocket.
           </p>
 
           <div className="mt-10 min-[500px]:mt-8 w-full min-[500px]:w-auto mp-rise [animation-delay:660ms]">

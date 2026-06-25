@@ -11,40 +11,48 @@ const FALLBACK_FAQS: Faq[] = [
     id: "fallback-1",
     question: "Is MetroPaws free?",
     answer:
-      "The app is completely free to download and use. Membership fees, if applicable, are arranged directly with your partner clinic — MetroPaws never charges you through the app.",
+      "Creating an account and registering your pet is completely free. Paid annual plans (Standard, Deluxe, Premium) unlock wellness benefits, and you only pay when you activate one. MetroPaws is a membership club, not insurance or an HMO.",
     sort_order: 0,
     is_published: true,
   },
   {
     id: "fallback-2",
-    question: "What exactly is a session?",
+    question: "How do claims and reimbursements work?",
     answer:
-      "A session is one service visit — a grooming appointment, a vet consultation, a vaccination, or any other service your clinic offers. Your membership includes a set number of sessions per service type, and the app always shows you exactly how many you have left before your next visit.",
+      "Visit any clinic or groomer, pay them directly, then upload your receipt in the app. We check it against your plan and benefit balance, and approved wellness benefits are reimbursed to your Benefit Wallet.",
     sort_order: 1,
     is_published: true,
   },
   {
     id: "fallback-3",
-    question: "Can I manage multiple pets?",
+    question: "Do I have to switch to a partner clinic?",
     answer:
-      "Yes. Add as many pets as your household has — dogs, cats, or both. Each pet gets their own Digital Pawprint, session tracker, and vaccination record, all under one account.",
+      "No. Use the vet your pet already trusts. MetroPaws partners across Las Piñas offer extra member perks, but you are never required to switch providers to claim your benefits.",
     sort_order: 2,
     is_published: true,
   },
   {
     id: "fallback-4",
-    question: "Which clinics in Metro Manila accept MetroPaws?",
+    question: "What are PawPoints?",
     answer:
-      "We partner with veterinary clinics across Metro Manila — Quezon City, Makati, Pasig, and more. The full up-to-date list of partner clinics is inside the app once you sign in.",
+      "PawPoints are loyalty points that reward responsible pet ownership. Earn them by joining, renewing, referring friends, completing approved claims, and attending events, then redeem for badges, pet ID tags, wellness-credit boosters, and more.",
     sort_order: 3,
     is_published: true,
   },
   {
     id: "fallback-5",
-    question: "Does my QR code work without internet?",
+    question: "Can I manage multiple pets?",
     answer:
-      "Yes. Your Digital Pawprint QR ID is cached on your phone and works offline. You only need an internet connection to sync new sessions or update your pet's profile.",
+      "Yes. Add every pet in your household — dogs, cats, or both. Each pet gets its own Digital Pet Passport with profile, vaccination, grooming, and consultation records, all under one account.",
     sort_order: 4,
+    is_published: true,
+  },
+  {
+    id: "fallback-6",
+    question: "Does my QR Pet ID work without internet?",
+    answer:
+      "Yes. Your QR Pet ID is cached on your phone, so you can show it at the clinic even on a weak signal. You only need a connection to sync new records or submit a claim.",
+    sort_order: 5,
     is_published: true,
   },
 ];
@@ -82,8 +90,8 @@ export async function FaqSection() {
               Everything you need to know
             </h2>
             <p className="text-sm text-(--color-ink) leading-relaxed mt-4 max-w-[42ch]">
-              How the membership works, what sessions cover, and what to expect
-              at your first visit.
+              How the membership works, what your benefits cover, and what to
+              expect at your first visit.
             </p>
           </div>
 
