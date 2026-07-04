@@ -15,6 +15,7 @@ export interface PlanService {
     icon: string;
   };
   sessions: number;
+  reimbursement_cap_centavos: number;
 }
 
 export interface Plan {

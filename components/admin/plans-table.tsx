@@ -19,7 +19,7 @@ import {
   deletePlanAction,
   type ActionState,
 } from "@/app/admin/(protected)/plans/actions";
-import type { Plan } from "@/app/admin/(protected)/plans/page";
+import type { Plan, PlanService } from "@/app/admin/(protected)/plans/page";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -348,6 +348,75 @@ function DialogShell({
   );
 }
 
+// ── Reimbursement caps Input ──────────────────────────────────────────────────
+
+/** Centavos → the peso string shown in the cap input (empty when 0/unset). */
+function centavosToPesoInput(centavos: number): string {
+  if (!centavos || centavos <= 0) return "";
+  const pesos = centavos / 100;
+  return Number.isInteger(pesos) ? String(pesos) : pesos.toFixed(2);
+}
+
+function CapsInput({
+  services,
+  caps,
+  onChange,
+  disabled,
+}: {
+  services: PlanService[];
+  caps: Record<string, string>;
+  onChange: (caps: Record<string, string>) => void;
+  disabled?: boolean;
+}) {
+  if (services.length === 0) return null;
+
+  return (
+    <div className="space-y-2">
+      <p className="text-[oklch(0.48_0.02_258)] text-xs font-semibold">
+        Reimbursement caps
+      </p>
+      <p className="text-[oklch(0.72_0.01_258)] text-[0.625rem] leading-relaxed">
+        The most a member can be reimbursed per pet, per category, each benefit year.
+        Set <span className="font-semibold">0</span> to make a category
+        non-reimbursable. Changes apply to everyone on this plan for the current year
+        and won&apos;t reduce amounts already used.
+      </p>
+      <div className="space-y-1.5 pt-0.5">
+        {services.map((s) => (
+          <div key={s.service_type.id} className="flex items-center gap-3">
+            <span className="flex-1 min-w-0 truncate text-xs text-[oklch(0.40_0.040_258)]">
+              {s.service_type.name}
+            </span>
+            <div className="relative w-32 shrink-0">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[oklch(0.72_0.01_258)]">
+                ₱
+              </span>
+              <input
+                type="text"
+                inputMode="decimal"
+                aria-label={`${s.service_type.name} reimbursement cap in pesos per year`}
+                value={caps[s.service_type.id] ?? ""}
+                onChange={(e) =>
+                  onChange({ ...caps, [s.service_type.id]: e.target.value })
+                }
+                placeholder="0"
+                readOnly={disabled}
+                className={cn(
+                  "w-full bg-[oklch(0.97_0.01_80)] border border-[oklch(0.88_0.010_258)] rounded-lg pl-6 pr-3 py-2",
+                  "text-sm text-right tabular-nums text-[oklch(0.24_0.055_258)] placeholder:text-[oklch(0.72_0.01_258)]",
+                  "focus:outline-none focus:ring-2 focus:ring-[oklch(0.72_0.115_82)] focus:border-transparent",
+                  "transition-colors duration-150",
+                  disabled && "cursor-default",
+                )}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Plan form (create + edit) ─────────────────────────────────────────────────
 
 function PlanFormDialog({
@@ -375,6 +444,15 @@ function PlanFormDialog({
   const [isActive, setIsActive] = useState(plan?.is_active ?? true);
   const [features, setFeatures] = useState<string[]>(plan?.features ?? []);
 
+  const planServices = plan?.plan_services ?? [];
+  const [caps, setCaps] = useState<Record<string, string>>(() => {
+    const init: Record<string, string> = {};
+    for (const s of planServices) {
+      init[s.service_type.id] = centavosToPesoInput(s.reimbursement_cap_centavos);
+    }
+    return init;
+  });
+
   const prevPending = useRef(false);
 
   useEffect(() => {
@@ -398,6 +476,18 @@ function PlanFormDialog({
           <input type="hidden" name="is_featured" value={isFeatured ? "true" : "false"} />
           <input type="hidden" name="is_active" value={isActive ? "true" : "false"} />
           <input type="hidden" name="features" value={JSON.stringify(features)} />
+          {isEdit && planServices.length > 0 && (
+            <input
+              type="hidden"
+              name="service_caps"
+              value={JSON.stringify(
+                planServices.map((s) => ({
+                  service_type_id: s.service_type.id,
+                  peso: caps[s.service_type.id] ?? "",
+                })),
+              )}
+            />
+          )}
 
           {/* Visually freeze form body while action is in flight */}
           <div className={cn("space-y-4 transition-opacity duration-150", pending && "opacity-60 pointer-events-none")}>
@@ -479,6 +569,19 @@ function PlanFormDialog({
             <div className="pt-1">
               <FeaturesInput features={features} onChange={setFeatures} disabled={pending} />
             </div>
+
+            {isEdit && planServices.length > 0 && (
+              <div className="pt-1 border-t border-[oklch(0.92_0.010_258)] mt-1">
+                <div className="pt-3">
+                  <CapsInput
+                    services={planServices}
+                    caps={caps}
+                    onChange={setCaps}
+                    disabled={pending}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {state.error && (

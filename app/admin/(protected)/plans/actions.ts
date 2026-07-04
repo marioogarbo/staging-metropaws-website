@@ -23,6 +23,45 @@ function parseNonNegativeInt(raw: string): number | null {
   return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
+const MAX_CAP_CENTAVOS = 100_000_000; // ₱1,000,000
+
+type ServiceCap = { service_type_id: string; reimbursement_cap_centavos: number };
+
+/**
+ * Parse the hidden `service_caps` field: a JSON array of
+ * `{ service_type_id, peso }` where `peso` is the admin-typed amount (may contain
+ * commas / decimals). Converts pesos → integer centavos and validates the range.
+ */
+function parseServiceCaps(raw: string): ServiceCap[] | { error: string } {
+  if (!raw || !raw.trim()) return [];
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { error: "Could not parse reimbursement caps." };
+  }
+  if (!Array.isArray(parsed)) return { error: "Invalid reimbursement caps format." };
+
+  const caps: ServiceCap[] = [];
+  for (const entry of parsed as unknown[]) {
+    if (typeof entry !== "object" || entry === null) continue;
+    const { service_type_id, peso } = entry as { service_type_id?: unknown; peso?: unknown };
+    if (typeof service_type_id !== "string" || !service_type_id) continue;
+
+    const pesoStr = String(peso ?? "").replace(/[,\s]/g, "");
+    const pesos = pesoStr === "" ? 0 : Number(pesoStr);
+    if (!Number.isFinite(pesos) || pesos < 0) {
+      return { error: "Reimbursement caps must be amounts of ₱0 or greater." };
+    }
+    const centavos = Math.round(pesos * 100);
+    if (centavos > MAX_CAP_CENTAVOS) {
+      return { error: "A reimbursement cap exceeds the ₱1,000,000 maximum." };
+    }
+    caps.push({ service_type_id, reimbursement_cap_centavos: centavos });
+  }
+  return caps;
+}
+
 function parseFeatures(raw: string): string[] | { error: string } {
   if (!raw) return [];
   try {
@@ -126,6 +165,9 @@ export async function updatePlanAction(
   const featuresResult = parseFeatures(formData.get("features") as string);
   if ("error" in featuresResult) return { error: featuresResult.error };
 
+  const capsResult = parseServiceCaps(formData.get("service_caps") as string);
+  if ("error" in capsResult) return { error: capsResult.error };
+
   const sortOrderRaw = (formData.get("sort_order") as string) || "0";
   const sortOrder = parseNonNegativeInt(sortOrderRaw) ?? 0;
 
@@ -138,6 +180,7 @@ export async function updatePlanAction(
     is_featured: formData.get("is_featured") === "true",
     is_active: formData.get("is_active") === "true",
     sort_order: sortOrder,
+    ...(capsResult.length > 0 ? { service_caps: capsResult } : {}),
   };
 
   const res = await safeFetch(`${BACKEND_URL}/admin/plans/${planId}`, {
