@@ -405,13 +405,8 @@ export function RegisterForm() {
         </p>
 
         <p className="text-center text-sm text-(--color-ink-muted)">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="font-semibold text-(--color-navy) underline underline-offset-2 transition-colors hover:text-(--color-gold)"
-          >
-            Sign in
-          </Link>
+          Already have an account? Sign in from the MetroPaws app to view your
+          pet&apos;s QR membership ID.
         </p>
       </form>
     </>

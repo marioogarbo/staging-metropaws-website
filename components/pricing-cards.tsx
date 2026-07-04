@@ -219,7 +219,7 @@ function PricingCard({ plan, cycle }: { plan: Plan; cycle: BillingCycle }) {
 
       <div className="mt-auto pt-8">
         <Link
-          href="#"
+          href="/register"
           className={cn(
             "inline-flex items-center justify-center w-full text-sm font-semibold rounded-lg px-6 py-3.5 transition-all duration-200 ease-out",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-gold) focus-visible:ring-offset-2",
