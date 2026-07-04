@@ -42,7 +42,7 @@ interface KpiTileProps {
   delay?: number;
 }
 
-function KpiTile({
+export function KpiTile({
   label,
   value,
   sub,

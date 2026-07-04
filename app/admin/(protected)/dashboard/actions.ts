@@ -63,6 +63,50 @@ interface RawClinic {
   id: string;
 }
 
+export interface PlanMixEntry {
+  plan: string;
+  count: number;
+}
+
+export interface BusinessKpis {
+  members: { total: number; founding: number; active_memberships: number };
+  revenue: { total_php: number; paid_payments: number };
+  plan_mix: PlanMixEntry[];
+  claims: {
+    total: number;
+    by_status: Record<string, number>;
+    pending_review: number;
+    payout_total_php: number;
+  };
+  utilization: { total_sessions: number; used_sessions: number; used_pct: number };
+  partner_clinics: number;
+}
+
+const EMPTY_KPIS: BusinessKpis = {
+  members: { total: 0, founding: 0, active_memberships: 0 },
+  revenue: { total_php: 0, paid_payments: 0 },
+  plan_mix: [],
+  claims: { total: 0, by_status: {}, pending_review: 0, payout_total_php: 0 },
+  utilization: { total_sessions: 0, used_sessions: 0, used_pct: 0 },
+  partner_clinics: 0,
+};
+
+export async function fetchBusinessKpisAction(): Promise<BusinessKpis> {
+  const token = await getAdminToken();
+  if (!token) return EMPTY_KPIS;
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/admin/analytics/overview`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+    if (!res.ok) return EMPTY_KPIS;
+    return res.json();
+  } catch {
+    return EMPTY_KPIS;
+  }
+}
+
 export async function fetchFoundingLocationAction(): Promise<BarangayCount[]> {
   const token = await getAdminToken();
   if (!token) return [];

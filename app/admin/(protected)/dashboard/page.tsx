@@ -3,8 +3,10 @@ import { redirect } from "next/navigation";
 import {
   fetchFoundingLocationAction,
   fetchDashboardSummaryAction,
+  fetchBusinessKpisAction,
 } from "@/app/admin/(protected)/dashboard/actions";
 import { DashboardKpi } from "@/components/admin/dashboard-kpi";
+import { BusinessKpi } from "@/components/admin/business-kpi";
 import { FoundingLocationChart } from "@/components/admin/founding-location-chart";
 import { ReservationStatusChart } from "@/components/admin/reservation-status-chart";
 import { PetSpeciesChart } from "@/components/admin/pet-species-chart";
@@ -18,9 +20,10 @@ export default async function AdminDashboardPage() {
   const token = cookieStore.get("admin_token")?.value;
   if (!token) redirect("/admin/login");
 
-  const [summary, locationData] = await Promise.all([
+  const [summary, locationData, businessKpis] = await Promise.all([
     fetchDashboardSummaryAction(),
     fetchFoundingLocationAction(),
+    fetchBusinessKpisAction(),
   ]);
 
   return (
@@ -43,10 +46,22 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Analytics body — tighter internal rhythm */}
-      <div className="flex flex-col gap-6">
-        {/* KPI row */}
+      {/* Business KPIs — the management view */}
+      <div className="flex flex-col gap-4">
         <div className="dash-rise" style={{ animationDelay: "60ms" }}>
+          <BusinessKpi kpis={businessKpis} />
+        </div>
+      </div>
+
+      {/* Founding 50 campaign — launch tracking */}
+      <div className="flex flex-col gap-6">
+        <div className="dash-rise" style={{ animationDelay: "120ms" }}>
+          <h2
+            className="font-semibold tracking-tight mb-4"
+            style={{ color: "oklch(0.24 0.055 258)", fontSize: "16px" }}
+          >
+            Founding 50 Campaign
+          </h2>
           <DashboardKpi summary={summary} />
         </div>
 

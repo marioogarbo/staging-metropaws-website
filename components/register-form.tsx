@@ -33,6 +33,10 @@ const inputBase =
 
 const inputError = "border-red-400 focus:ring-red-400";
 
+// Version of the membership agreement + privacy terms shown at sign-up.
+// Must match CURRENT_AGREEMENT_VERSION on the backend.
+const AGREEMENT_VERSION = "2026-07";
+
 type FieldErrors = {
   firstName: string | null;
   lastName: string | null;
@@ -40,6 +44,7 @@ type FieldErrors = {
   phone: string | null;
   password: string | null;
   confirmPassword: string | null;
+  agreement: string | null;
   server: string | null;
 };
 
@@ -50,6 +55,7 @@ const EMPTY_ERRORS: FieldErrors = {
   phone: null,
   password: null,
   confirmPassword: null,
+  agreement: null,
   server: null,
 };
 
@@ -61,6 +67,7 @@ export function RegisterForm() {
   const [phoneValue, setPhoneValue] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [agreementAccepted, setAgreementAccepted] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>(EMPTY_ERRORS);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -112,6 +119,10 @@ export function RegisterForm() {
     else if (password !== confirmPassword)
       next.confirmPassword = "Passwords do not match.";
 
+    if (!agreementAccepted)
+      next.agreement =
+        "Please accept the Membership Agreement and Privacy Policy to continue.";
+
     if (Object.values(next).some(Boolean)) {
       setErrors(next);
       requestAnimationFrame(() => {
@@ -134,6 +145,8 @@ export function RegisterForm() {
           email,
           phone: phoneValue,
           password,
+          agreement_accepted: true,
+          agreement_version: AGREEMENT_VERSION,
         }),
       });
 
@@ -369,6 +382,46 @@ export function RegisterForm() {
           </div>
         </FieldLabel>
 
+        {/* Digital Agreement acceptance — required for members */}
+        <div className="pt-1">
+          <label className="flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              name="agreement"
+              checked={agreementAccepted}
+              disabled={isSubmitting}
+              onChange={(e) => {
+                setAgreementAccepted(e.target.checked);
+                if (e.target.checked) clearFieldError("agreement");
+              }}
+              aria-invalid={errors.agreement ? true : undefined}
+              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-(--color-gold)"
+            />
+            <span className="text-sm leading-relaxed text-(--color-ink-muted)">
+              I have read and accept the{" "}
+              <Link
+                href="/terms-of-service"
+                className="font-medium text-(--color-navy) underline underline-offset-2 transition-colors hover:text-(--color-gold)"
+              >
+                Membership Agreement
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy-policy"
+                className="font-medium text-(--color-navy) underline underline-offset-2 transition-colors hover:text-(--color-gold)"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </span>
+          </label>
+          {errors.agreement && (
+            <p role="alert" className="mt-1.5 text-sm text-red-600">
+              {errors.agreement}
+            </p>
+          )}
+        </div>
+
         {errors.server && (
           <p role="alert" className="text-sm text-red-600">
             {errors.server}
@@ -385,24 +438,6 @@ export function RegisterForm() {
           )}
           {isSubmitting ? "Creating account..." : "Create account"}
         </button>
-
-        <p className="text-center text-sm leading-relaxed text-(--color-ink-faint)">
-          By signing up you agree to our{" "}
-          <Link
-            href="/terms-of-service"
-            className="underline underline-offset-2 transition-colors hover:text-(--color-ink-muted)"
-          >
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link
-            href="/privacy-policy"
-            className="underline underline-offset-2 transition-colors hover:text-(--color-ink-muted)"
-          >
-            Privacy Policy
-          </Link>
-          .
-        </p>
 
         <p className="text-center text-sm text-(--color-ink-muted)">
           Already have an account? Sign in from the MetroPaws app to view your
