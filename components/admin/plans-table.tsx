@@ -19,12 +19,13 @@ import {
   deletePlanAction,
   type ActionState,
 } from "@/app/admin/(protected)/plans/actions";
-import type { Plan, PlanService } from "@/app/admin/(protected)/plans/page";
+import type { Plan, PlanService, ServiceType } from "@/app/admin/(protected)/plans/page";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const MAX_FEATURES = 20;
 const MAX_FEATURE_LEN = 200;
+const MAX_SESSIONS = 365;
 const SESSION_EXPIRED_MSG = "Session expired. Please log in again.";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -357,18 +358,71 @@ function centavosToPesoInput(centavos: number): string {
   return Number.isInteger(pesos) ? String(pesos) : pesos.toFixed(2);
 }
 
-function CapsInput({
-  services,
-  caps,
+/** The peso cap input used for one category row. */
+function CapPesoInput({
+  label,
+  value,
   onChange,
   disabled,
 }: {
-  services: PlanService[];
-  caps: Record<string, string>;
-  onChange: (caps: Record<string, string>) => void;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
   disabled?: boolean;
 }) {
-  if (services.length === 0) return null;
+  return (
+    <div className="relative w-28 shrink-0">
+      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[oklch(0.72_0.01_258)]">
+        ₱
+      </span>
+      <input
+        type="text"
+        inputMode="decimal"
+        aria-label={`${label} reimbursement cap in pesos per year`}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="0"
+        readOnly={disabled}
+        className={cn(
+          "w-full bg-[oklch(0.97_0.01_80)] border border-[oklch(0.88_0.010_258)] rounded-lg pl-6 pr-3 py-2",
+          "text-sm text-right tabular-nums text-[oklch(0.24_0.055_258)] placeholder:text-[oklch(0.72_0.01_258)]",
+          "focus:outline-none focus:ring-2 focus:ring-[oklch(0.72_0.115_82)] focus:border-transparent",
+          "transition-colors duration-150",
+          disabled && "cursor-default",
+        )}
+      />
+    </div>
+  );
+}
+
+function CapsInput({
+  services,
+  availableToAdd,
+  caps,
+  onCapsChange,
+  addedIds,
+  sessions,
+  onSessionsChange,
+  onAddCategory,
+  onRemoveCategory,
+  disabled,
+}: {
+  services: PlanService[];
+  availableToAdd: ServiceType[];
+  caps: Record<string, string>;
+  onCapsChange: (caps: Record<string, string>) => void;
+  addedIds: string[];
+  sessions: Record<string, string>;
+  onSessionsChange: (sessions: Record<string, string>) => void;
+  onAddCategory: (serviceType: ServiceType) => void;
+  onRemoveCategory: (serviceTypeId: string) => void;
+  disabled?: boolean;
+}) {
+  const addedTypes = addedIds
+    .map((id) => availableToAdd.find((t) => t.id === id))
+    .filter((t): t is ServiceType => Boolean(t));
+  // Types offered in the picker: available minus the ones already added here.
+  const pickable = availableToAdd.filter((t) => !addedIds.includes(t.id));
 
   return (
     <div className="space-y-2">
@@ -387,32 +441,101 @@ function CapsInput({
             <span className="flex-1 min-w-0 truncate text-xs text-[oklch(0.40_0.040_258)]">
               {s.service_type.name}
             </span>
-            <div className="relative w-32 shrink-0">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[oklch(0.72_0.01_258)]">
-                ₱
+            <CapPesoInput
+              label={s.service_type.name}
+              value={caps[s.service_type.id] ?? ""}
+              onChange={(v) => onCapsChange({ ...caps, [s.service_type.id]: v })}
+              disabled={disabled}
+            />
+          </div>
+        ))}
+
+        {/* Newly added categories — also capture a sessions grant. */}
+        {addedTypes.map((t) => (
+          <div key={t.id} className="flex items-center gap-2">
+            <span className="flex-1 min-w-0 truncate text-xs text-[oklch(0.40_0.040_258)]">
+              {t.name}
+              <span className="ml-1.5 text-[0.625rem] text-[oklch(0.72_0.115_82)] font-medium">
+                new
               </span>
+            </span>
+            <div className="relative w-20 shrink-0">
               <input
-                type="text"
-                inputMode="decimal"
-                aria-label={`${s.service_type.name} reimbursement cap in pesos per year`}
-                value={caps[s.service_type.id] ?? ""}
+                type="number"
+                min={0}
+                max={MAX_SESSIONS}
+                aria-label={`${t.name} sessions granted`}
+                value={sessions[t.id] ?? "0"}
                 onChange={(e) =>
-                  onChange({ ...caps, [s.service_type.id]: e.target.value })
+                  onSessionsChange({ ...sessions, [t.id]: e.target.value })
                 }
                 placeholder="0"
                 readOnly={disabled}
                 className={cn(
-                  "w-full bg-[oklch(0.97_0.01_80)] border border-[oklch(0.88_0.010_258)] rounded-lg pl-6 pr-3 py-2",
+                  "w-full bg-[oklch(0.97_0.01_80)] border border-[oklch(0.88_0.010_258)] rounded-lg px-2 py-2",
                   "text-sm text-right tabular-nums text-[oklch(0.24_0.055_258)] placeholder:text-[oklch(0.72_0.01_258)]",
                   "focus:outline-none focus:ring-2 focus:ring-[oklch(0.72_0.115_82)] focus:border-transparent",
                   "transition-colors duration-150",
                   disabled && "cursor-default",
                 )}
               />
+              <span className="pointer-events-none absolute -bottom-3.5 right-0 text-[0.5rem] text-[oklch(0.72_0.01_258)]">
+                sessions
+              </span>
             </div>
+            <CapPesoInput
+              label={t.name}
+              value={caps[t.id] ?? ""}
+              onChange={(v) => onCapsChange({ ...caps, [t.id]: v })}
+              disabled={disabled}
+            />
+            <button
+              type="button"
+              onClick={() => onRemoveCategory(t.id)}
+              disabled={disabled}
+              aria-label={`Remove ${t.name}`}
+              className="shrink-0 flex items-center justify-center p-1 rounded-lg text-[oklch(0.72_0.01_258)] hover:text-red-500 transition-colors disabled:opacity-40"
+            >
+              <X size={13} />
+            </button>
           </div>
         ))}
       </div>
+
+      {addedTypes.length > 0 && (
+        <p className="text-[oklch(0.72_0.01_258)] text-[0.5625rem] leading-relaxed pt-3">
+          Sessions apply to new activations and renewals; the cap applies to everyone
+          on this plan immediately.
+        </p>
+      )}
+
+      {/* Add-category picker */}
+      {pickable.length > 0 && (
+        <div className="pt-1">
+          <select
+            aria-label="Add a service category to this plan"
+            value=""
+            disabled={disabled}
+            onChange={(e) => {
+              const t = pickable.find((x) => x.id === e.target.value);
+              if (t) onAddCategory(t);
+            }}
+            className={cn(
+              "w-full bg-[oklch(0.97_0.01_80)] border border-dashed border-[oklch(0.88_0.010_258)] rounded-lg px-3 py-2",
+              "text-sm text-[oklch(0.48_0.02_258)]",
+              "focus:outline-none focus:ring-2 focus:ring-[oklch(0.72_0.115_82)] focus:border-transparent",
+              "transition-colors duration-150 disabled:opacity-40",
+            )}
+          >
+            <option value="">+ Add a service category…</option>
+            {pickable.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </div>
   );
 }
@@ -421,10 +544,12 @@ function CapsInput({
 
 function PlanFormDialog({
   plan,
+  serviceTypes,
   onClose,
   onSuccess,
 }: {
   plan: Plan | null;
+  serviceTypes: ServiceType[];
   onClose: () => void;
   onSuccess: (action: "created" | "updated") => void;
 }) {
@@ -452,6 +577,45 @@ function PlanFormDialog({
     }
     return init;
   });
+  // Categories the admin is adding to this plan (not yet on plan_services).
+  const [addedIds, setAddedIds] = useState<string[]>([]);
+  const [sessions, setSessions] = useState<Record<string, string>>({});
+
+  // Service types not already granted by this plan — candidates for "add".
+  const existingTypeIds = new Set(planServices.map((s) => s.service_type.id));
+  const availableToAdd = serviceTypes.filter((t) => !existingTypeIds.has(t.id));
+
+  const addCategory = (t: ServiceType) => {
+    setAddedIds((prev) => (prev.includes(t.id) ? prev : [...prev, t.id]));
+    setCaps((prev) => ({ ...prev, [t.id]: prev[t.id] ?? "" }));
+    setSessions((prev) => ({ ...prev, [t.id]: prev[t.id] ?? "0" }));
+  };
+
+  const removeCategory = (id: string) => {
+    setAddedIds((prev) => prev.filter((x) => x !== id));
+    setCaps((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setSessions((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
+  const serviceCapsPayload = [
+    ...planServices.map((s) => ({
+      service_type_id: s.service_type.id,
+      peso: caps[s.service_type.id] ?? "",
+    })),
+    ...addedIds.map((id) => ({
+      service_type_id: id,
+      peso: caps[id] ?? "",
+      sessions: sessions[id] ?? "0",
+    })),
+  ];
 
   const prevPending = useRef(false);
 
@@ -476,16 +640,11 @@ function PlanFormDialog({
           <input type="hidden" name="is_featured" value={isFeatured ? "true" : "false"} />
           <input type="hidden" name="is_active" value={isActive ? "true" : "false"} />
           <input type="hidden" name="features" value={JSON.stringify(features)} />
-          {isEdit && planServices.length > 0 && (
+          {isEdit && serviceCapsPayload.length > 0 && (
             <input
               type="hidden"
               name="service_caps"
-              value={JSON.stringify(
-                planServices.map((s) => ({
-                  service_type_id: s.service_type.id,
-                  peso: caps[s.service_type.id] ?? "",
-                })),
-              )}
+              value={JSON.stringify(serviceCapsPayload)}
             />
           )}
 
@@ -570,13 +729,19 @@ function PlanFormDialog({
               <FeaturesInput features={features} onChange={setFeatures} disabled={pending} />
             </div>
 
-            {isEdit && planServices.length > 0 && (
+            {isEdit && (planServices.length > 0 || availableToAdd.length > 0) && (
               <div className="pt-1 border-t border-[oklch(0.92_0.010_258)] mt-1">
                 <div className="pt-3">
                   <CapsInput
                     services={planServices}
+                    availableToAdd={availableToAdd}
                     caps={caps}
-                    onChange={setCaps}
+                    onCapsChange={setCaps}
+                    addedIds={addedIds}
+                    sessions={sessions}
+                    onSessionsChange={setSessions}
+                    onAddCategory={addCategory}
+                    onRemoveCategory={removeCategory}
                     disabled={pending}
                   />
                 </div>
@@ -913,9 +1078,11 @@ function PlanCard({
 
 export function PlansTable({
   plans,
+  serviceTypes = [],
   fetchError,
 }: {
   plans: Plan[];
+  serviceTypes?: ServiceType[];
   fetchError?: boolean;
 }) {
   const router = useRouter();
@@ -944,6 +1111,7 @@ export function PlansTable({
       {showCreate && (
         <PlanFormDialog
           plan={null}
+          serviceTypes={serviceTypes}
           onClose={() => setShowCreate(false)}
           onSuccess={handleSuccess}
         />
@@ -952,6 +1120,7 @@ export function PlansTable({
       {editPlan && (
         <PlanFormDialog
           plan={editPlan}
+          serviceTypes={serviceTypes}
           onClose={() => setEditPlan(null)}
           onSuccess={handleSuccess}
         />

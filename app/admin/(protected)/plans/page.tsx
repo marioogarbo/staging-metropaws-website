@@ -31,26 +31,46 @@ export interface Plan {
   plan_services: PlanService[];
 }
 
+export interface ServiceType {
+  id: string;
+  name: string;
+  description: string | null;
+  icon: string;
+}
+
 async function PlansContent({ token }: { token: string }) {
   let plans: Plan[] = [];
+  let serviceTypes: ServiceType[] = [];
   let fetchError = false;
   try {
-    const res = await fetch(`${BACKEND_URL}/admin/plans`, {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    });
-    if (res.ok) {
-      plans = await res.json();
-    } else if (res.status === 401) {
+    const [plansRes, typesRes] = await Promise.all([
+      fetch(`${BACKEND_URL}/admin/plans`, {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
+      }),
+      fetch(`${BACKEND_URL}/admin/service-types`, {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
+      }),
+    ]);
+    if (plansRes.status === 401 || typesRes.status === 401) {
       redirect("/admin/login");
+    }
+    if (plansRes.ok) {
+      plans = await plansRes.json();
     } else {
       fetchError = true;
+    }
+    // Service types are only needed for the "add category" picker — a failure
+    // there shouldn't blank the whole page, so fall back to an empty list.
+    if (typesRes.ok) {
+      serviceTypes = await typesRes.json();
     }
   } catch {
     fetchError = true;
   }
 
-  return <PlansTable plans={plans} fetchError={fetchError} />;
+  return <PlansTable plans={plans} serviceTypes={serviceTypes} fetchError={fetchError} />;
 }
 
 function PlansSkeleton() {

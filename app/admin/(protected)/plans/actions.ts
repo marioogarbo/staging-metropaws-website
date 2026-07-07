@@ -25,12 +25,19 @@ function parseNonNegativeInt(raw: string): number | null {
 
 const MAX_CAP_CENTAVOS = 100_000_000; // ₱1,000,000
 
-type ServiceCap = { service_type_id: string; reimbursement_cap_centavos: number };
+const MAX_SESSIONS = 365;
+
+type ServiceCap = {
+  service_type_id: string;
+  reimbursement_cap_centavos: number;
+  sessions?: number;
+};
 
 /**
  * Parse the hidden `service_caps` field: a JSON array of
- * `{ service_type_id, peso }` where `peso` is the admin-typed amount (may contain
- * commas / decimals). Converts pesos → integer centavos and validates the range.
+ * `{ service_type_id, peso, sessions? }` where `peso` is the admin-typed amount
+ * (may contain commas / decimals). Converts pesos → integer centavos and
+ * validates the range. `sessions` is only present for newly added categories.
  */
 function parseServiceCaps(raw: string): ServiceCap[] | { error: string } {
   if (!raw || !raw.trim()) return [];
@@ -45,7 +52,11 @@ function parseServiceCaps(raw: string): ServiceCap[] | { error: string } {
   const caps: ServiceCap[] = [];
   for (const entry of parsed as unknown[]) {
     if (typeof entry !== "object" || entry === null) continue;
-    const { service_type_id, peso } = entry as { service_type_id?: unknown; peso?: unknown };
+    const { service_type_id, peso, sessions } = entry as {
+      service_type_id?: unknown;
+      peso?: unknown;
+      sessions?: unknown;
+    };
     if (typeof service_type_id !== "string" || !service_type_id) continue;
 
     const pesoStr = String(peso ?? "").replace(/[,\s]/g, "");
@@ -57,7 +68,16 @@ function parseServiceCaps(raw: string): ServiceCap[] | { error: string } {
     if (centavos > MAX_CAP_CENTAVOS) {
       return { error: "A reimbursement cap exceeds the ₱1,000,000 maximum." };
     }
-    caps.push({ service_type_id, reimbursement_cap_centavos: centavos });
+
+    const cap: ServiceCap = { service_type_id, reimbursement_cap_centavos: centavos };
+    if (sessions !== undefined && sessions !== null && String(sessions).trim() !== "") {
+      const s = Number(String(sessions).trim());
+      if (!Number.isInteger(s) || s < 0 || s > MAX_SESSIONS) {
+        return { error: `Sessions must be a whole number between 0 and ${MAX_SESSIONS}.` };
+      }
+      cap.sessions = s;
+    }
+    caps.push(cap);
   }
   return caps;
 }

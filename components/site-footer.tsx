@@ -140,6 +140,14 @@ function FooterContent() {
             © 2026 MetroPaws Wellness Club. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
+            <a
+              href="/docs/member-manual.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/90 text-sm hover:text-(--color-gold) transition-colors duration-150"
+            >
+              Member Manual
+            </a>
             <Link
               href="/privacy-policy"
               target="_blank"

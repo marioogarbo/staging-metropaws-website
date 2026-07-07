@@ -123,6 +123,30 @@ export async function fetchFoundingLocationAction(): Promise<BarangayCount[]> {
   }
 }
 
+export interface TopProvider {
+  provider: string;
+  claims: number;
+  approved_claims: number;
+  claimed_php: number;
+  approved_php: number;
+}
+
+export async function fetchTopProvidersAction(): Promise<TopProvider[]> {
+  const token = await getAdminToken();
+  if (!token) return [];
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/admin/analytics/top-providers?limit=10`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchDashboardSummaryAction(): Promise<DashboardSummary> {
   const token = await getAdminToken();
   const empty: DashboardSummary = {

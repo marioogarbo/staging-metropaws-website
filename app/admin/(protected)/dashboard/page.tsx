@@ -4,9 +4,11 @@ import {
   fetchFoundingLocationAction,
   fetchDashboardSummaryAction,
   fetchBusinessKpisAction,
+  fetchTopProvidersAction,
 } from "@/app/admin/(protected)/dashboard/actions";
 import { DashboardKpi } from "@/components/admin/dashboard-kpi";
 import { BusinessKpi } from "@/components/admin/business-kpi";
+import { TopProvidersChart } from "@/components/admin/top-providers-chart";
 import { FoundingLocationChart } from "@/components/admin/founding-location-chart";
 import { ReservationStatusChart } from "@/components/admin/reservation-status-chart";
 import { PetSpeciesChart } from "@/components/admin/pet-species-chart";
@@ -20,10 +22,11 @@ export default async function AdminDashboardPage() {
   const token = cookieStore.get("admin_token")?.value;
   if (!token) redirect("/admin/login");
 
-  const [summary, locationData, businessKpis] = await Promise.all([
+  const [summary, locationData, businessKpis, topProviders] = await Promise.all([
     fetchDashboardSummaryAction(),
     fetchFoundingLocationAction(),
     fetchBusinessKpisAction(),
+    fetchTopProvidersAction(),
   ]);
 
   return (
@@ -50,6 +53,9 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-col gap-4">
         <div className="dash-rise" style={{ animationDelay: "60ms" }}>
           <BusinessKpi kpis={businessKpis} />
+        </div>
+        <div className="dash-rise" style={{ animationDelay: "90ms" }}>
+          <TopProvidersChart data={topProviders} />
         </div>
       </div>
 
