@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReimbursementsTable } from "@/components/admin/reimbursements-table";
+import { ExportButton } from "@/components/admin/export-button";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? "https://metropaws-backend.onrender.com";
@@ -134,12 +135,15 @@ export default async function AdminReimbursementsPage() {
               Reimbursements
             </h1>
           </div>
-          <div className="flex gap-2.5 flex-wrap items-start">
-            <StatPill label="Total" count={claims.length} />
-            <StatPill label="To review" count={toReview} highlighted={toReview > 0} />
-            <StatPill label="Approved" count={approved} />
-            <StatPill label="Paid" count={paid} />
-            <StatPill label="Rejected" count={rejected} />
+          <div className="flex flex-col items-start sm:items-end gap-3">
+            <div className="flex gap-2.5 flex-wrap items-start">
+              <StatPill label="Total" count={claims.length} />
+              <StatPill label="To review" count={toReview} highlighted={toReview > 0} />
+              <StatPill label="Approved" count={approved} />
+              <StatPill label="Paid" count={paid} />
+              <StatPill label="Rejected" count={rejected} />
+            </div>
+            <ExportButton resource="reimbursements" />
           </div>
         </div>
       </header>
