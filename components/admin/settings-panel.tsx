@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   updatePaymentGateAction,
   updateFounding50Action,
+  updateBookingEnabledAction,
   type AppSettings,
 } from "@/app/admin/(protected)/settings/actions";
 
@@ -146,6 +147,23 @@ export function SettingsPanel({ initialSettings }: SettingsPanelProps) {
     });
   }
 
+  function saveBookingEnabled(value: boolean) {
+    const previous = settings;
+    setSettings((s) => ({ ...s, booking_enabled: value }));
+    setPendingKey("booking_enabled");
+
+    startTransition(async () => {
+      const result = await updateBookingEnabledAction(value);
+      setPendingKey(null);
+      if (result.error) {
+        setSettings(previous);
+        toast.error(result.error);
+      } else {
+        toast.success("Setting saved.");
+      }
+    });
+  }
+
   function saveMemberLimit() {
     const parsed = parseInt(memberLimitInput, 10);
     if (isNaN(parsed) || parsed < 1) {
@@ -220,6 +238,31 @@ export function SettingsPanel({ initialSettings }: SettingsPanelProps) {
               onChange={saveFounding50Toggle}
               disabled={isPending}
               label="Founding 50 Enrollment"
+            />
+          </div>
+        </SettingRow>
+      </Section>
+
+      <Section title="Mobile App">
+        <SettingRow
+          label="Booking Tab"
+          description="When ON, members see the Book tab and can request clinic visits. Kept OFF while there are no partner clinics — the app shows the Events tab instead. Flipping this updates every member's app without a Play Store release."
+          last
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-4 flex items-center justify-center">
+              {pendingKey === "booking_enabled" && (
+                <Loader2
+                  size={12}
+                  className="animate-spin text-[oklch(0.48_0.020_258)]"
+                />
+              )}
+            </div>
+            <Toggle
+              checked={settings.booking_enabled}
+              onChange={saveBookingEnabled}
+              disabled={isPending}
+              label="Booking Tab"
             />
           </div>
         </SettingRow>

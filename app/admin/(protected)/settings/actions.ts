@@ -20,6 +20,7 @@ export interface AppSettings {
   founding_enrollment_active: boolean;
   member_limit: number;
   founding_claimed: number;
+  booking_enabled: boolean;
 }
 
 const SETTINGS_DEFAULTS: AppSettings = {
@@ -27,6 +28,7 @@ const SETTINGS_DEFAULTS: AppSettings = {
   founding_enrollment_active: false,
   member_limit: 50,
   founding_claimed: 0,
+  booking_enabled: false,
 };
 
 export async function fetchSettingsAction(): Promise<AppSettings> {
@@ -34,12 +36,16 @@ export async function fetchSettingsAction(): Promise<AppSettings> {
   if (!token) return SETTINGS_DEFAULTS;
 
   try {
-    const [paymentsRes, foundingRes] = await Promise.all([
+    const [paymentsRes, foundingRes, mobileConfigRes] = await Promise.all([
       fetch(`${BACKEND_URL}/settings/payments-enabled`, {
         headers: authHeader(token),
         cache: "no-store",
       }),
       fetch(`${BACKEND_URL}/settings/founding-50`, {
+        headers: authHeader(token),
+        cache: "no-store",
+      }),
+      fetch(`${BACKEND_URL}/settings/mobile-config`, {
         headers: authHeader(token),
         cache: "no-store",
       }),
@@ -53,12 +59,18 @@ export async function fetchSettingsAction(): Promise<AppSettings> {
       ? ((await foundingRes.json()) as { enabled: boolean; limit: number; claimed: number })
       : null;
 
+    const mobileConfigData = mobileConfigRes.ok
+      ? ((await mobileConfigRes.json()) as { booking_enabled: boolean })
+      : null;
+
     return {
       require_payment: paymentsData?.payments_enabled ?? SETTINGS_DEFAULTS.require_payment,
       founding_enrollment_active:
         foundingData?.enabled ?? SETTINGS_DEFAULTS.founding_enrollment_active,
       member_limit: foundingData?.limit ?? SETTINGS_DEFAULTS.member_limit,
       founding_claimed: foundingData?.claimed ?? SETTINGS_DEFAULTS.founding_claimed,
+      booking_enabled:
+        mobileConfigData?.booking_enabled ?? SETTINGS_DEFAULTS.booking_enabled,
     };
   } catch {
     return SETTINGS_DEFAULTS;
@@ -75,6 +87,27 @@ export async function updatePaymentGateAction(
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeader(token) },
     body: JSON.stringify({ payments_enabled: enabled }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    return { error: (err as { detail?: string })?.detail ?? "Failed to save." };
+  }
+
+  revalidatePath("/admin/settings");
+  return { error: null };
+}
+
+export async function updateBookingEnabledAction(
+  enabled: boolean,
+): Promise<{ error: string | null }> {
+  const token = await getToken();
+  if (!token) return { error: "Not authenticated." };
+
+  const res = await fetch(`${BACKEND_URL}/admin/settings/booking-enabled`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader(token) },
+    body: JSON.stringify({ booking_enabled: enabled }),
   });
 
   if (!res.ok) {

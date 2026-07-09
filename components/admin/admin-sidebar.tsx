@@ -13,6 +13,7 @@ import {
   Settings,
   HelpCircle,
   Receipt,
+  Megaphone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/app/admin/actions";
@@ -24,6 +25,7 @@ const NAV_LINKS = [
   { href: "/admin/plans", label: "Plans", icon: CreditCard },
   { href: "/admin/reservations", label: "Reservations", icon: BookMarked },
   { href: "/admin/reimbursements", label: "Reimbursements", icon: Receipt },
+  { href: "/admin/promos", label: "Promos", icon: Megaphone },
   { href: "/admin/faqs", label: "FAQs", icon: HelpCircle },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
