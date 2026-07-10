@@ -70,33 +70,6 @@ export interface AdminReimbursement {
   events: ReimbursementEvent[];
 }
 
-interface StatPillProps {
-  label: string;
-  count: number;
-  highlighted?: boolean;
-}
-
-function StatPill({ label, count, highlighted }: StatPillProps) {
-  if (highlighted) {
-    return (
-      <div className="flex items-baseline gap-1.5 px-3.5 py-2 rounded-lg border bg-[oklch(0.93_0.025_80)] border-[oklch(0.87_0.040_80)]">
-        <span className="text-base font-bold tabular-nums leading-none text-[oklch(0.40_0.060_82)]">
-          {count}
-        </span>
-        <span className="text-xs font-medium text-[oklch(0.52_0.055_82)]">{label}</span>
-      </div>
-    );
-  }
-  return (
-    <div className="flex items-baseline gap-1.5 px-3.5 py-2 rounded-lg border bg-[oklch(0.97_0.008_80)] border-[oklch(0.91_0.010_258)]">
-      <span className="text-base font-bold tabular-nums leading-none text-[oklch(0.24_0.055_258)]">
-        {count}
-      </span>
-      <span className="text-xs font-medium text-[oklch(0.55_0.018_258)]">{label}</span>
-    </div>
-  );
-}
-
 export default async function AdminReimbursementsPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
@@ -116,36 +89,18 @@ export default async function AdminReimbursementsPage() {
     // surface empty state
   }
 
-  const toReview = claims.filter((c) =>
-    ["pending", "under_review", "needs_info"].includes(c.status),
-  ).length;
-  const approved = claims.filter((c) => c.status === "approved").length;
-  const paid = claims.filter((c) => c.status === "paid").length;
-  const rejected = claims.filter((c) => c.status === "rejected").length;
-
   return (
     <main className="max-w-7xl mx-auto px-6 py-10">
-      <header className="mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
-          <div>
-            <p className="text-[oklch(0.72_0.115_82)] text-xs font-semibold tracking-widest uppercase mb-2">
-              Member benefits
-            </p>
-            <h1 className="text-[oklch(0.24_0.055_258)] text-2xl font-bold tracking-tight leading-tight">
-              Reimbursements
-            </h1>
-          </div>
-          <div className="flex flex-col items-start sm:items-end gap-3">
-            <div className="flex gap-2.5 flex-wrap items-start">
-              <StatPill label="Total" count={claims.length} />
-              <StatPill label="To review" count={toReview} highlighted={toReview > 0} />
-              <StatPill label="Approved" count={approved} />
-              <StatPill label="Paid" count={paid} />
-              <StatPill label="Rejected" count={rejected} />
-            </div>
-            <ExportButton resource="reimbursements" />
-          </div>
+      <header className="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
+        <div>
+          <p className="text-[oklch(0.72_0.115_82)] text-xs font-semibold tracking-widest uppercase mb-2">
+            Member benefits
+          </p>
+          <h1 className="text-[oklch(0.24_0.055_258)] text-2xl font-bold tracking-tight leading-tight">
+            Reimbursements
+          </h1>
         </div>
+        <ExportButton resource="reimbursements" />
       </header>
 
       <ReimbursementsTable claims={claims} />

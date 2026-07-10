@@ -137,11 +137,13 @@ function FilterTab({
   label,
   count,
   active,
+  attention = false,
   onClick,
 }: {
   label: string;
   count: number;
   active: boolean;
+  attention?: boolean;
   onClick: () => void;
 }) {
   return (
@@ -158,10 +160,12 @@ function FilterTab({
       {label}
       <span
         className={cn(
-          "px-1.5 py-0.5 rounded-full text-xs font-semibold leading-none",
+          "px-1.5 py-0.5 rounded-full text-xs font-semibold leading-none tabular-nums",
           active
             ? "bg-white/20 text-white"
-            : "bg-[oklch(0.90_0.010_258)] text-[oklch(0.48_0.02_258)]",
+            : attention
+              ? "bg-[oklch(0.90_0.055_82)] text-[oklch(0.40_0.070_82)]"
+              : "bg-[oklch(0.90_0.010_258)] text-[oklch(0.48_0.02_258)]",
         )}
       >
         {count}
@@ -656,6 +660,7 @@ export function ReimbursementsTable({ claims }: { claims: AdminReimbursement[] }
               label={label}
               count={counts[key]}
               active={filter === key}
+              attention={key === "to_review" && counts[key] > 0}
               onClick={() => setFilter(key)}
             />
           ))}
