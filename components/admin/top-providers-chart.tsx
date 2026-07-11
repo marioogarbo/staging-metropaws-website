@@ -7,10 +7,10 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import type { TopProvider } from "@/app/admin/(protected)/dashboard/actions";
+import type { ClinicVisitSummary } from "@/app/admin/(protected)/dashboard/actions";
 
 interface Props {
-  data: TopProvider[];
+  data: ClinicVisitSummary[];
 }
 
 const chartConfig = {

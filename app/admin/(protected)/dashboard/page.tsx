@@ -4,11 +4,12 @@ import {
   fetchFoundingLocationAction,
   fetchDashboardSummaryAction,
   fetchBusinessKpisAction,
-  fetchTopProvidersAction,
+  fetchClinicVisitsAction,
 } from "@/app/admin/(protected)/dashboard/actions";
 import { DashboardKpi } from "@/components/admin/dashboard-kpi";
 import { BusinessKpi } from "@/components/admin/business-kpi";
 import { TopProvidersChart } from "@/components/admin/top-providers-chart";
+import { ClinicDirectory } from "@/components/admin/clinic-directory";
 import { FoundingLocationChart } from "@/components/admin/founding-location-chart";
 import { ReservationStatusChart } from "@/components/admin/reservation-status-chart";
 import { PetSpeciesChart } from "@/components/admin/pet-species-chart";
@@ -22,11 +23,11 @@ export default async function AdminDashboardPage() {
   const token = cookieStore.get("admin_token")?.value;
   if (!token) redirect("/admin/login");
 
-  const [summary, locationData, businessKpis, topProviders] = await Promise.all([
+  const [summary, locationData, businessKpis, clinicVisits] = await Promise.all([
     fetchDashboardSummaryAction(),
     fetchFoundingLocationAction(),
     fetchBusinessKpisAction(),
-    fetchTopProvidersAction(),
+    fetchClinicVisitsAction(),
   ]);
 
   return (
@@ -55,7 +56,10 @@ export default async function AdminDashboardPage() {
           <BusinessKpi kpis={businessKpis} />
         </div>
         <div className="dash-rise" style={{ animationDelay: "90ms" }}>
-          <TopProvidersChart data={topProviders} />
+          <TopProvidersChart data={clinicVisits.slice(0, 10)} />
+        </div>
+        <div className="dash-rise" style={{ animationDelay: "120ms" }}>
+          <ClinicDirectory clinics={clinicVisits} />
         </div>
       </div>
 

@@ -123,20 +123,22 @@ export async function fetchFoundingLocationAction(): Promise<BarangayCount[]> {
   }
 }
 
-export interface TopProvider {
+export interface ClinicVisitSummary {
   provider: string;
   claims: number;
+  members: number;
   approved_claims: number;
   claimed_php: number;
   approved_php: number;
+  last_visit: string | null;
 }
 
-export async function fetchTopProvidersAction(): Promise<TopProvider[]> {
+export async function fetchClinicVisitsAction(): Promise<ClinicVisitSummary[]> {
   const token = await getAdminToken();
   if (!token) return [];
 
   try {
-    const res = await fetch(`${BACKEND_URL}/admin/analytics/top-providers?limit=10`, {
+    const res = await fetch(`${BACKEND_URL}/admin/analytics/top-providers`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     });
