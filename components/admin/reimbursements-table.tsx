@@ -379,7 +379,10 @@ function ClaimRowBase({ claim }: { claim: AdminReimbursement }) {
                     </p>
                   </div>
                 )}
-                <DetailRow label="Plan" value={claim.member.plan_type ?? "—"} />
+                <DetailRow
+                  label="Plan"
+                  value={claim.pet.plan_type ?? claim.member.plan_type ?? "—"}
+                />
                 <DetailRow label="Service date" value={formatDate(claim.service_date)} />
                 <DetailRow label="Reference no." value={claim.receipt_reference ?? "—"} />
                 <DetailRow label="Member notes" value={claim.member_notes ?? "—"} multiline />

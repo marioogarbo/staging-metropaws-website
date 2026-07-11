@@ -38,6 +38,7 @@ export interface ReimbursementPet {
   name: string;
   species: string | null;
   photo_url: string | null;
+  plan_type: string | null;
 }
 
 export type ReimbursementStatus =
