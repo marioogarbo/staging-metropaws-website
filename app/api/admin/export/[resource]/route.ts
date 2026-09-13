@@ -11,6 +11,7 @@ const BACKEND_EXPORT_PATHS: Record<string, string> = {
   members: "members.xlsx",
   reimbursements: "reimbursements.xlsx",
   reservations: "founding-reservations.xlsx",
+  "wellness-checks": "wellness-checks.xlsx",
 };
 
 export async function GET(

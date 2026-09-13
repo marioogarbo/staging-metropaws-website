@@ -5,7 +5,11 @@ import { Download, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
-type ExportResource = "members" | "reimbursements" | "reservations";
+type ExportResource =
+  | "members"
+  | "reimbursements"
+  | "reservations"
+  | "wellness-checks";
 
 interface ExportButtonProps {
   resource: ExportResource;

@@ -10,10 +10,11 @@ export const metadata: Metadata = {
 };
 
 const sections = [
-  { id: "how-to-request", title: "1. How to Request Deletion" },
-  { id: "what-is-deleted", title: "2. What Is Deleted" },
-  { id: "what-is-retained", title: "3. What Is Retained" },
-  { id: "timeline", title: "4. Timeline" },
+  { id: "in-the-app", title: "1. Delete It Yourself in the App" },
+  { id: "how-to-request", title: "2. Request Deletion by Email" },
+  { id: "what-is-deleted", title: "3. What Is Deleted" },
+  { id: "what-is-retained", title: "4. What Is Retained" },
+  { id: "timeline", title: "5. Timeline" },
 ];
 
 export default function DeleteAccountPage() {
@@ -24,7 +25,7 @@ export default function DeleteAccountPage() {
         <LegalPageLayout
           eyebrow="Legal"
           title="Delete Your Account"
-          lastUpdated="July 9, 2026"
+          lastUpdated="September 12, 2026"
           sections={sections}
           crossLink={{ label: "Read our Privacy Policy", href: "/privacy-policy" }}
         >
@@ -39,9 +40,30 @@ export default function DeleteAccountPage() {
 function DeleteAccountContent() {
   return (
     <div className="max-w-[65ch]">
-      <section id="how-to-request" className="scroll-mt-32">
+      <section id="in-the-app" className="scroll-mt-32">
         <h2 className="text-xl font-bold text-(--color-navy) tracking-tight mb-4">
-          1. How to Request Deletion
+          1. Delete It Yourself in the App
+        </h2>
+        <p className="text-sm text-(--color-ink) leading-relaxed mb-4">
+          The fastest way is in the MetroPaws app: open the{" "}
+          <span className="font-semibold">Account</span> tab and choose{" "}
+          <span className="font-semibold">Delete account</span>. You will be asked to
+          confirm and to enter your password. Deletion takes effect immediately and you
+          are signed out.
+        </p>
+        <p className="text-sm text-(--color-ink) leading-relaxed mb-5">
+          If you no longer have the app installed, or cannot sign in, use the email
+          route below instead &mdash; you do not need to reinstall the app to have your
+          account deleted.
+        </p>
+      </section>
+
+      <section
+        id="how-to-request"
+        className="mt-10 pt-10 border-t border-(--color-ink-faint) scroll-mt-32"
+      >
+        <h2 className="text-xl font-bold text-(--color-navy) tracking-tight mb-4">
+          2. Request Deletion by Email
         </h2>
         <p className="text-sm text-(--color-ink) leading-relaxed mb-4">
           You can request deletion of your MetroPaws account and the personal data
@@ -77,7 +99,7 @@ function DeleteAccountContent() {
         className="mt-10 pt-10 border-t border-(--color-ink-faint) scroll-mt-32"
       >
         <h2 className="text-xl font-bold text-(--color-navy) tracking-tight mb-4">
-          2. What Is Deleted
+          3. What Is Deleted
         </h2>
         <p className="text-sm text-(--color-ink) leading-relaxed mb-4">
           Once your request is verified and processed, we delete the personal data
@@ -86,10 +108,13 @@ function DeleteAccountContent() {
         <ul className="text-sm text-(--color-ink) leading-relaxed mb-5 list-disc pl-5 space-y-2">
           <li>Your account credentials and profile (name, email, phone, address, photo)</li>
           <li>Your pets&rsquo; profiles, photos, and vaccination records</li>
-          <li>Uploaded receipts and reimbursement claim details</li>
           <li>Payout details (GCash or bank account information)</li>
           <li>In-app notifications and Paw Points history</li>
         </ul>
+        <p className="text-sm text-(--color-ink) leading-relaxed mb-5">
+          Photos and vaccination cards are removed from our storage, not merely
+          unlinked from your account.
+        </p>
       </section>
 
       <section
@@ -97,15 +122,24 @@ function DeleteAccountContent() {
         className="mt-10 pt-10 border-t border-(--color-ink-faint) scroll-mt-32"
       >
         <h2 className="text-xl font-bold text-(--color-navy) tracking-tight mb-4">
-          3. What Is Retained
+          4. What Is Retained
         </h2>
+        <p className="text-sm text-(--color-ink) leading-relaxed mb-4">
+          We retain records the law requires us to keep, and they are stripped of your
+          personal details rather than left identifying you. These are:
+        </p>
+        <ul className="text-sm text-(--color-ink) leading-relaxed mb-5 list-disc pl-5 space-y-2">
+          <li>Payment and membership records, required by Philippine tax regulations</li>
+          <li>
+            Reimbursement claims and the receipts supporting them &mdash; these are proof
+            of money paid out, so they are kept as financial records
+          </li>
+          <li>Service history, where a benefit was used against your membership</li>
+        </ul>
         <p className="text-sm text-(--color-ink) leading-relaxed mb-5">
-          We may retain limited records where the law requires or permits it, such as
-          payment and tax records required by Philippine regulations, and records needed
-          to resolve disputes or enforce our agreements. Retained records are kept only
-          as long as legally necessary and are no longer used for any other purpose. See
-          our Privacy Policy for details on retention under the Data Privacy Act of 2012
-          (RA 10173).
+          Retained records are kept only as long as legally necessary and are no longer
+          used for any other purpose. See our Privacy Policy for details on retention
+          under the Data Privacy Act of 2012 (RA 10173).
         </p>
       </section>
 
@@ -114,12 +148,13 @@ function DeleteAccountContent() {
         className="mt-10 pt-10 border-t border-(--color-ink-faint) scroll-mt-32"
       >
         <h2 className="text-xl font-bold text-(--color-navy) tracking-tight mb-4">
-          4. Timeline
+          5. Timeline
         </h2>
         <p className="text-sm text-(--color-ink) leading-relaxed mb-5">
-          We acknowledge deletion requests within 5 business days and complete verified
-          deletions within 30 days of verification. You will receive a confirmation
-          email once your data has been deleted.
+          Deleting your account in the app takes effect immediately. For emailed
+          requests, we acknowledge within 5 business days and complete verified
+          deletions within 90 days of verification, in line with our Privacy Policy.
+          You will receive a confirmation email once your data has been deleted.
         </p>
       </section>
     </div>

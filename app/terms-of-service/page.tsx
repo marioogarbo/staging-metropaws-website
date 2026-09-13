@@ -191,7 +191,7 @@ function TermsContent() {
 
       <Paragraph>
         This MetroPaws Membership Agreement (the “Agreement”) is entered into by
-        and between MetroPaws Wellness Club Philippines Inc. (“MetroPaws”,
+        and between MetroPaws Wellness Club Philippines, Inc. (“MetroPaws”,
         “Company”, “we”, “us” or “our”) and the approved individual identified in
         the Membership Application, app registration, website registration, office
         registration or digital acceptance record (the “Member”, “you” or “your”).
@@ -871,7 +871,7 @@ function TermsContent() {
         </Paragraph>
         <div className="bg-(--color-cream-warm) rounded-xl p-5">
           <p className="text-sm font-semibold text-(--color-navy) mb-1">
-            MetroPaws Wellness Club Philippines Inc.
+            MetroPaws Wellness Club Philippines, Inc.
           </p>
           <p className="text-sm text-(--color-ink) leading-relaxed mb-3">
             #18 Apollo 3, Moonwalk Village, Talon 5, Las Piñas City, Metro Manila

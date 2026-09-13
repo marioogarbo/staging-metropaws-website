@@ -26,7 +26,11 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Announcement bar */}
+      {/* Announcement bar. Carries the Pet Wellness Readiness Check, which
+          is deliberately absent from the nav and the footer: the expo QR is
+          its real distribution and this is its only on-site entry point.
+          Founding 50 keeps its nav link, its header CTA and its footer
+          entry, so repointing this hides the line and not the campaign. */}
       <div
         className="overflow-hidden transition-all duration-200 ease-out"
         style={{ display: "grid", gridTemplateRows: barVisible ? "1fr" : "0fr" }}
@@ -43,17 +47,17 @@ export function SiteHeader() {
                 <X className="w-4 h-4" />
               </button>
               <span className="text-(--color-gold) text-sm font-bold uppercase tracking-widest">
-                FOUNDING 50
+                FREE CHECK
               </span>
               <span className="text-white/25 text-sm select-none">|</span>
               <span className="text-white/85 text-sm">
-                Locked-in pricing for our first 50 families. Spots are open now.
+                How ready is your pet&rsquo;s wellness routine? Eight questions, about a minute.
               </span>
               <Link
-                href="/#founding"
+                href="/wellness-check"
                 className="text-(--color-gold) text-sm font-semibold ml-2 hover:opacity-75 transition-opacity"
               >
-                Reserve yours →
+                Check your pet →
               </Link>
             </div>
 
@@ -67,15 +71,15 @@ export function SiteHeader() {
                 <X className="w-3.5 h-3.5" />
               </button>
               <span className="text-(--color-gold) text-xs font-bold uppercase tracking-widest shrink-0">
-                FOUNDING 50
+                FREE CHECK
               </span>
               <span className="text-white/25 text-xs select-none">·</span>
               <Link
-                href="/#founding"
+                href="/wellness-check"
                 onClick={() => setMenuOpen(false)}
                 className="text-white/80 text-xs font-medium hover:text-(--color-gold) transition-colors truncate"
               >
-                Spots open — Reserve yours
+                Pet Wellness Readiness Check
               </Link>
             </div>
           </div>

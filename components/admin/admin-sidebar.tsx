@@ -18,6 +18,7 @@ import {
   Banknote,
   MapPin,
   PawPrint,
+  HeartPulse,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/app/admin/actions";
@@ -29,6 +30,10 @@ const NAV_LINKS = [
   { href: "/admin/plans", label: "Plans", icon: CreditCard },
   { href: "/admin/payments", label: "Payments", icon: Wallet },
   { href: "/admin/reservations", label: "Reservations", icon: BookMarked },
+  // Next to Reservations because both are lead capture from the public
+  // site. HeartPulse rather than Stethoscope: the page's own disclaimer
+  // says this is not a medical assessment.
+  { href: "/admin/wellness-checks", label: "Wellness Checks", icon: HeartPulse },
   { href: "/admin/reimbursements", label: "Reimbursements", icon: Receipt },
   { href: "/admin/paw-points", label: "PawPoints", icon: PawPrint },
   { href: "/admin/providers", label: "Providers", icon: Banknote },

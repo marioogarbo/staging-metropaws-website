@@ -234,6 +234,56 @@
     }
   }
 
+  /*
+    Wellness check stepping between questions.
+
+    Only the question body moves. The progress row, the rail and the buttons
+    are the frame around it, and re-animating those on every tap reads as the
+    whole page flashing rather than the question changing.
+
+    Direction-aware: a stepper that animates the same way going back
+    contradicts what the visitor just did. Transform and opacity only, so
+    nothing here touches layout, and the distance is small enough that it
+    never fights the 220ms auto-advance.
+  */
+  @keyframes mp-step-forward {
+    from {
+      opacity: 0;
+      transform: translateX(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes mp-step-back {
+    from {
+      opacity: 0;
+      transform: translateX(-14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .mp-step-forward {
+    animation: mp-step-forward 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .mp-step-back {
+    animation: mp-step-back 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mp-step-forward,
+    .mp-step-back {
+      animation-duration: 1ms;
+      animation-delay: 0ms !important;
+    }
+  }
+
   @keyframes mp-rule-draw {
     from {
       opacity: 0;
@@ -329,5 +379,38 @@
       animation-duration: 1ms;
       animation-delay: 0ms !important;
     }
+  }
+}
+
+/* Print, for the wellness check's "Print or save as PDF".
+   Outbound email is down, so the PDF is the only takeaway a visitor gets. */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  /* Browsers drop background graphics by default, so the navy score panel
+     would otherwise print as an empty white rectangle with invisible white
+     text inside it. Invert it to a bordered white block instead of fighting
+     the browser with print-color-adjust, which users can override anyway. */
+  .mp-print-panel,
+  .mp-print-panel * {
+    background: transparent !important;
+  }
+
+  .mp-print-panel {
+    border: 1px solid var(--color-ink);
+    padding: 1rem;
+  }
+
+  .mp-avoid-break {
+    break-inside: avoid;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }

@@ -74,7 +74,7 @@ function PrivacyContent() {
             <span className="font-semibold text-(--color-navy)">
               Personal Information Controller:
             </span>{" "}
-            MetroPaws Wellness Club, Las Piñas City, Metro Manila, Philippines.
+            MetroPaws Wellness Club Philippines, Inc., Las Piñas City, Metro Manila, Philippines.
           </p>
         </div>
       </section>
